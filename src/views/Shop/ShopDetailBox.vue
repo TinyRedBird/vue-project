@@ -2,22 +2,20 @@
   <div>
     <div class="ShopDetailWrapper">
       <div class="Left-BoxWrapper">
-        <div class="LeftSecletBox active">
-          <span>全部商品</span>
-        </div>
-
         <div
           v-for="item in StoreType"
-          class="LeftSecletBox"
           :key="item.id"
           @click="SeletedTypeSale(item.id)"
+          class="LeftSecletBox"
         >
-          <span>{{ item.name }}</span>
+          <router-link active-class="active" :to="`/Shop/${storeId}/${item.id}`">
+            <span>{{ item.name }}</span>
+          </router-link>
         </div>
       </div>
 
       <div class="right-BoxWrapper">
-        <Card :goods="goods"></Card>
+        <Card></Card>
       </div>
     </div>
   </div>
@@ -25,30 +23,28 @@
 
 <script setup>
 import Card from '../Shop/Shop-Detail-Card.vue'
-
 import { useRoute } from 'vue-router'
 import { getStoreTypeService } from '@/apis/store'
 import { ref } from 'vue'
 
-
 //
 const route = useRoute()
 const StoreType = ref({})
+
 // console.log(route.params.storeId, route.params.goodsId)
 
+const storeId = Number(route.params.storeId)
 const getStoreType = async () => {
-  const storeId = Number(route.params.storeId)
   const result = await getStoreTypeService(storeId)
   StoreType.value = result.data
   // console.log(result)
 }
+getStoreType()
+
 function SeletedTypeSale(typeId) {
   console.log(typeId)
-  const props = defineProps(['foo'])
-  console.log(props.foo)
+  location.reload()
 }
-
-getStoreType()
 </script>
 
 <style scoped>

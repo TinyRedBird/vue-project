@@ -17,17 +17,17 @@
       </template>
 
       <!-- 退出登录  -->
-      <!-- <div @click="confirm" class="Login-btn">
+      <div @click="confirm" class="Login-btn">
         <div v-if="userInfoStore.info">
           <span>退出登录</span>
         </div>
         <div v-else>
           <span>登录</span>
         </div>
-      </div> -->
-
+      </div>
+     
       <div class="Login-btn" @click="pushToOrder">
-        <div ><span>我的购物车</span></div>
+        <div><span>我的购物车</span></div>
       </div>
       <!-- <template v-else>
         <div class="User-Container">
@@ -51,7 +51,7 @@ const router = useRouter()
 
 const confirm = () => {
   console.log('确定要退出登录退出？')
-  userInfoStore.info.removeInfo()
+  userInfoStore.removeInfo()
 }
 
 const getUserInfo = async () => {
@@ -80,13 +80,12 @@ function pushToOrder() {
   display: block;
   line-height: 2rem;
   font-size: 14px;
-  border-radius: 0.5rem;  
-  background: #ff5555;    
+  border-radius: 0.5rem;
+  background: #ff5555;
   font-weight: 400;
   position: relative;
   box-shadow: 1px 2px 3px 4px rgba(245, 246, 247, 0.1);
   cursor: pointer;
-
 }
 .shop-cart-container {
   display: flex;

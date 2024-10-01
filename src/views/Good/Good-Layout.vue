@@ -8,7 +8,7 @@
               <img class="shopIconImg" :src="product.storeLogo" :alt="product.storeId" />
             </div>
             <div class="ShopNameWrapper">
-              <span class="shopName">{{ product.storeName }}</span>
+              <span class="shopName">{{ route.params.goodsId.storeName }}</span>
             </div>
           </div>
         </a>
@@ -45,7 +45,6 @@ getGoods()
 <style scoped>
 .buttonText {
   color: #000;
-  /* font-family: 'Courier New', Courier, monospace; */
   font-size: 28px;
   letter-spacing: 0;
   line-height: 40px;
@@ -66,7 +65,6 @@ getGoods()
 
 .shopName {
   color: #000;
-  /* font-family: 'Courier New', Courier, monospace; */
   font-size: 28px;
   line-height: 28px;
   word-break: keep-all;

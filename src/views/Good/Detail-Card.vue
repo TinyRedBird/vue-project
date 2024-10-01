@@ -44,7 +44,7 @@
                     <span class="pcSkuCateText skuCateText">库存：</span>
                     <div class="skuItemWrapper">
                       <div class="skuItem">
-                        <span class="skuValueName">{{ product.stock }}</span>
+                        <span class="skuValueName">{{ product.stock }}{{ product.goodsUnit }}</span>
                       </div>
                     </div>
                   </div>
@@ -54,7 +54,7 @@
                   <div>
                     <span class="countText">数量：</span>
                     <div class="countWrapper">
-                      <div class="quantityBtn minusBtn disabled">
+                      <!-- <div class="quantityBtn minusBtn disabled">
                         <span class="quantityBtnTextForPC">-</span>
                       </div>
                       <div class="countValueWrapper">
@@ -67,7 +67,13 @@
                       </div>
                       <div class="quantityBtn addBtn">
                         <span class="quantityBtnTextForPC">+</span>
-                      </div>
+                      </div> -->
+                      <el-input-number
+                        v-model="count"
+                        :min="1"
+                        :max="product.stock"
+                        @change="handleChange"
+                      />
                     </div>
                   </div>
                 </div>
@@ -75,9 +81,15 @@
 
               <div class="Actions">
                 <div class="ActionsBtnW">
-                  <button class="ActionsBtn ActionsPrimBtn" @click="addCart">
-                    <span class="ActionsBtnText">加入购物车</span>
-                  </button>
+                  <!-- <button class="ActionsBtn ActionsPrimBtn" click=""> -->
+                  <!-- <span class="ActionsBtnText">加入购物车</span> -->
+                  <el-button
+                    :plain="true"
+                    class="ActionsBtn ActionsBtnText ActionsPrimBtn"
+                    @click="addCart"
+                    >加入购物车</el-button
+                  >
+                  <!-- </button> -->
                 </div>
               </div>
             </div>
@@ -91,22 +103,33 @@
 import { useRoute } from 'vue-router'
 import { getSaleDetail } from '@/apis/sale'
 import { ref } from 'vue'
+import { ElMessage } from 'element-plus'
 //购物车
-// import { usefineStore } from '@/stores/cartStore'
-let count = ref(1)
-const addCart = () => {
-  // if()
-  // {
-  // goodsDescription:goods.value.goodsDescription,
-  // goodsId:goods.value.goodsId,
-  // goodsUnit:goods.value.goodsUnit,
-  // price:goods.value.price,
-  // stock:goods.value.stock,
-  // storeId:goods.value.storeId,
-  // storeName:goods.value.storeName,
-  // selected:true
-  // }
+import { useCartStore } from '@/stores/cartStore'
+const cartStore = useCartStore()
+const count = ref(1)
+const handleChange = (count) => {
+  console.log(count)
 }
+const addCart = () => {
+  // {
+  ElMessage({
+    message: '加入购物车成功',
+    type: 'success'
+  })
+  cartStore.addCart({
+    goodsId: product.value.goodsId,
+    goodsDescription: product.value.goodsDescription,
+    goodsUnit: product.value.goodsUnit,
+    price: product.value.price,
+    count: count.value,
+    stock: product.value.stock,
+    storeId: product.value.storeId,
+    storeName: product.value.storeName,
+    selected: true
+  })
+}
+
 //参数
 const route = useRoute()
 console.log(route.params.storeId, route.params.goodsId)

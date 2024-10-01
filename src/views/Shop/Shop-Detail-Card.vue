@@ -31,19 +31,22 @@ import { getStoreSaleService } from '@/apis/store'
 const route = useRoute()
 let store = ref({})
 //
+
+//
 const currentPage = ref(1)
-const pageSize = ref(10)
+const pageSize = ref(30)
 //
 const getStoreSale = async () => {
-  const storeId = Number(route.params.storeId)
+  let storeId = Number(route.params.storeId)
   let params = {
     currentPage: currentPage.value,
-    pageSize: pageSize.value
+    pageSize: pageSize.value,
+    typeId: route.params.typeId
   }
   const result = await getStoreSaleService(storeId, params)
   store.value = result.data.items
+  // console.log(store)
 }
-console.log(store)
 
 getStoreSale()
 </script>

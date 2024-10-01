@@ -2,7 +2,7 @@
   <div class="Good-Container">
     <div class="GoodWarp">
       <Layout></Layout>
-      <DetailCard></DetailCard>
+      <DetailCard ></DetailCard>
     </div>
   </div>
 </template>
@@ -10,7 +10,7 @@
 <script setup>
 //
 import Layout from './Good-Layout.vue'
-import DetailCard from '../Good/DetailCard.vue'
+import DetailCard from './Detail-Card.vue'
 //
 </script>
 

@@ -33,10 +33,16 @@ const routes = [
   {
     path: '/Good/:storeId/:goodsId',
     name: 'Good',
-    component: Good
+    component: Good,
+    redirect: '',
+    children: [
+      {
+        path: ''
+      }
+    ]
   },
   {
-    path: '/Shop/:storeId/:TypeId',
+    path: '/Shop/:storeId/:typeId',
     name: 'Shop',
     component: Shop
   },
