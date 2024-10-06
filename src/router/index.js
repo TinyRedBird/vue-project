@@ -11,7 +11,7 @@ import SearchGood from '../views/SearchGood/index.vue'
 import SearchShop from '../views/SearchShop/index.vue'
 import MyOrder from '../views/MyOrder/index.vue'
 
-import ShopManagement from '../views/ShopManagement/index.vue'
+import AdminLayout from '../views/Admin/layout/AdminLayout.vue'
 
 const routes = [
   //path和component对应关系的位置
@@ -56,9 +56,17 @@ const routes = [
     component: MyOrder
   },
   {
-    path: '/ShopManagement',
-    name: 'ShopManagement',
-    component: ShopManagement
+    path: '/admin',
+    component: AdminLayout,
+    redirect: '/admin/sale',
+    children: [
+      { path: '/admin/sale', component: () => import('../views/Admin/sale/SaleManage.vue') },
+      { path: '/admin/goods', component: () => import('../views/Admin/goods/GoodsManage.vue') },
+      { path: '/admin/store', component: () => import('../views/Admin/store/StoreManage.vue') },
+      { path: '/admin/user', component: () => import('../views/Admin/user/UserManage.vue') },
+      { path: '/admin/type', component: () => import('../views/Admin/type/TypeManage.vue') },
+      { path: '/admin/setting', component: () => import('../views/Admin/setting/BannerManage.vue') }
+    ]
   }
 ]
 
