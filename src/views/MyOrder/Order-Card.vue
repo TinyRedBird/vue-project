@@ -1,53 +1,72 @@
-<template v-for="">
-  <div class="OrderWarpper">
-    <div class="OrderCardTopWarpper">
-      <div class="OrderCardTop">
-        <div>
-          <input type="checkbox" name="" id="" />
-        </div>
-        <div class="OrderCardTopTextWarpper">
-          <span class="OrderCardTopText">店铺：{{}}</span>
-        </div>
+<template>
+  <el-card class="Order-Container" v-for="item in cartStore.cartList" :key="item.goodsDescription">
+    <template #header>
+      <div class="card-header">
+        <el-checkbox
+          :model-value="item.selected"
+          @change="(selected) => singleCheck(item, selected)"
+        />
+        <!-- :label="item.storeName" -->
       </div>
-    </div>
-    <!-- <div class="OrderLine"></div> -->
+    </template>
     <div class="Content-Count">
       <div>
         <div class="img-Count">
-          <img
-            src="https://cn.bing.com/images/search?view=detailV2&ccid=3r1vguZy&id=D66BA18EE154D133745ABEF43F0A4AE1418ADA84&thid=OIP.3r1vguZyWFUJ80A2Nf2k3AHaEK&mediaurl=https%3a%2f%2fimg-blog.csdnimg.cn%2f2021051521244130.jpg%3fx-oss-process%3dimage%2fwatermark%2ctype_ZmFuZ3poZW5naGVpdGk%2cshadow_10%2ctext_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl81MzQ0Nzc3Ng%3d%3d%2csize_16%2ccolor_FFFFFF%2ct_70&exph=1440&expw=2560&q=%e5%9b%be%e7%89%87&simid=608050649982581198&FORM=IRPRST&ck=86AD3FCD36463661C7CBA8A9759BE54B&selectedIndex=0&itb=0&idpp=overlayview&ajaxhist=0&ajaxserp=0"
-            alt=""
-          />
+          <img :src="item.goodsPicture" :alt="item.goodsDescription" />
         </div>
         <div class="Detail-Scrip">
-          <span>可口可乐</span>
+          <span>{{ item.goodsDescription }}</span>
         </div>
         <div class="Price-Count">
-          <span>￥25.01</span>
+          <span>{{ item.price }}元</span>
         </div>
-        <div></div>
-        <div class="delete-Count"><button>删除</button></div>
+        <div class="Count-Num">
+          <el-input-number v-model="item.count" :min="1" :max="item.stock" @change="handleChange" />
+        </div>
+        <div class="delete-Count">
+          <el-button @click.prevent="cartStore.delCart(item.goodsId)">删除</el-button>
+        </div>
       </div>
     </div>
-
-  </div>
+  </el-card>
 </template>
 
-<script>
-// import { useCartStore } from '@/stores/cartStore'
-// const cartStore = useCartStore()
+<script setup>
+import { useCartStore } from '@/stores/cartStore'
+
+const cartStore = useCartStore()
+const handleChange = () => {
+  console.log(cartStore.cartList)
+}
+const singleCheck = (item, selected) => {
+  console.log(item, selected)
+  cartStore.singleCheck(item, selected)
+}
 </script>
 
 <style scoped>
-.delete-Count button {
-  height: 2rem;
+.Count-Num {
+  height: 40px;
+  width: 120px;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-self: center;
+  left: 3rem;
+  margin: auto 0;
 }
+.Order-Container {
+  width: 880px;
+  border-radius: 1rem;
+  margin-bottom: 1rem;
+}
+
 .delete-Count {
   display: flex;
   align-items: center;
   justify-content: center;
   position: relative;
-  left: 24rem;
+  left: 6rem;
 }
 .Content-Count {
   padding: 10px 20px 10px 20px;
@@ -61,10 +80,13 @@
   position: relative;
   align-items: center;
   justify-self: start;
-  left: 4rem;
+  width: 120px;
+  left: 1rem;
 }
 .Price-Count {
-  left: 8rem;
+  color: #ff5000;
+  left: 4rem;
+  width: 80px;
   display: flex;
   position: relative;
   align-items: center;
@@ -78,7 +100,7 @@
   border-top: solid #bbb 1px;
 }
 .img-Count {
-  width: 250px;
+  width: 200px;
   height: 150px;
 }
 .img-Count img {
