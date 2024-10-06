@@ -31,6 +31,7 @@
   </el-card>
 </template>
 
+<<<<<<< HEAD:src/views/MyOrder/Order-Card.vue
 <script setup>
 import { useCartStore } from '@/stores/cartStore'
 
@@ -42,6 +43,11 @@ const singleCheck = (item, selected) => {
   console.log(item, selected)
   cartStore.singleCheck(item, selected)
 }
+=======
+<script>
+// import { useCartStore } from '@/stores/cartStore'
+// const cartStore = useCartStore()
+>>>>>>> 60a15b8b7e9764eb1654caf6833259036ebe3968:src/views/MyOrder/Order.vue
 </script>
 
 <style scoped>
