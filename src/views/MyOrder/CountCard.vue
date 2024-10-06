@@ -3,10 +3,11 @@
     <div class="Warp">
       <div class="TopWarp">
         <div class="OrderCheckBox">
-          <el-checkbox size="large"> </el-checkbox>
+          <el-checkbox size="large" :model-value="cartStore.isAll" @change="allCheck">
+          </el-checkbox>
         </div>
         <div class="Order-Contaner">
-          <el-button class="OrderBtn">删除</el-button>
+          <el-button class="OrderBtn" @click="cartStore.clearSelected">删除</el-button>
         </div>
       </div>
       <div class="CountWarp">
@@ -18,30 +19,12 @@
 
 <script setup>
 import OrderCard from './Order-Card.vue'
-// import { ref } from 'vue'
+import { useCartStore } from '@/stores/cartStore'
 
-// const checkAll = computed({
-//   get: () => selectedItems.value.length === orderCards.value.length,
-//   set: (value) => {
-//     if (value) {
-//       orderCards.value.forEach((item) => selectedItems.value.push(item.goodsId))
-//     } else {
-//       selectedItems.value = []
-//     }
-//   }
-// })
-
-// const isIndeterminate = computed(() => {
-//   return selectedItems.value.length > 0 && selectedItems.value.length < orderCards.value.length
-// })
-
-// const handleCheckAllChange = (value) => {
-//   if (value) {
-//     orderCards.value.forEach((item) => selectedItems.value.push(item.goodsId))
-//   } else {
-//     selectedItems.value = []
-//   }
-// }
+const cartStore = useCartStore()
+const allCheck = (selected) => {
+  cartStore.allCheck(selected)
+}
 </script>
 
 <style scoped>
@@ -72,6 +55,7 @@ import OrderCard from './Order-Card.vue'
 .OrderCheckBox {
   width: 30px;
   margin: 10px;
+  padding-left: 10px;
   display: flex;
 }
 
