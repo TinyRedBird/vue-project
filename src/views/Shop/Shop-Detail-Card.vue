@@ -37,7 +37,7 @@ const currentPage = ref(1)
 const pageSize = ref(30)
 //
 const getStoreSale = async () => {
-  let storeId = Number(route.params.storeId)
+  const storeId = Number(route.params.storeId)
   let params = {
     currentPage: currentPage.value,
     pageSize: pageSize.value,
@@ -48,7 +48,8 @@ const getStoreSale = async () => {
   // console.log(store)
 }
 
-getStoreSale()
+  getStoreSale()
+
 </script>
 <style>
 .Daily-Rec-Container > * {
