@@ -3,14 +3,12 @@
     <div class="Warp">
       <div class="TopWarp">
         <div class="OrderCheckBox">
-          <input type="checkbox" />
+          <el-checkbox size="large"> </el-checkbox>
         </div>
         <div class="Order-Contaner">
-          <button class="OrderBtn">删除</button>
+          <el-button class="OrderBtn">删除</el-button>
         </div>
       </div>
-
-      <!-- <div class="Line"></div> -->
       <div class="CountWarp">
         <OrderCard></OrderCard>
       </div>
@@ -19,8 +17,31 @@
 </template>
 
 <script setup>
-import OrderCard from '../MyOrder/Order.vue'
+import OrderCard from './Order-Card.vue'
+// import { ref } from 'vue'
 
+// const checkAll = computed({
+//   get: () => selectedItems.value.length === orderCards.value.length,
+//   set: (value) => {
+//     if (value) {
+//       orderCards.value.forEach((item) => selectedItems.value.push(item.goodsId))
+//     } else {
+//       selectedItems.value = []
+//     }
+//   }
+// })
+
+// const isIndeterminate = computed(() => {
+//   return selectedItems.value.length > 0 && selectedItems.value.length < orderCards.value.length
+// })
+
+// const handleCheckAllChange = (value) => {
+//   if (value) {
+//     orderCards.value.forEach((item) => selectedItems.value.push(item.goodsId))
+//   } else {
+//     selectedItems.value = []
+//   }
+// }
 </script>
 
 <style scoped>
@@ -67,7 +88,8 @@ import OrderCard from '../MyOrder/Order.vue'
 
 .Warp {
   flex-direction: column;
-  margin-left: 150px;
+  left: 3rem;
+  top: 3rem;
   display: flex;
   width: 1020px;
   /* height: 100%; */
@@ -75,6 +97,7 @@ import OrderCard from '../MyOrder/Order.vue'
   border: 1px solid #bbbbbb;
   border-radius: 20px;
   position: relative;
+  box-shadow: 1px 8px 3px 2px rgba(17, 15, 14, 0.3);
 }
 .CountWarp {
   position: relative;
