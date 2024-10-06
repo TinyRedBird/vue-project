@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="My-Order-Container">
     <CountCard></CountCard>
     <SumCard></SumCard>
   </div>
