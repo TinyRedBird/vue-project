@@ -121,6 +121,7 @@ const addCart = () => {
     goodsId: product.value.goodsId,
     goodsDescription: product.value.goodsDescription,
     goodsUnit: product.value.goodsUnit,
+    goodsPicture:product.value.goodsPicture,
     price: product.value.price,
     count: count.value,
     stock: product.value.stock,
