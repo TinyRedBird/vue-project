@@ -1,5 +1,5 @@
 import { defineStore } from 'pinia'
-import { ref } from 'vue'
+import { ref, computed } from 'vue'
 
 export const useCartStore = defineStore(
   'cart',
@@ -17,9 +17,28 @@ export const useCartStore = defineStore(
       }
       console.log('添加成功')
     }
+    const singleCheck = (goods, selected) => {
+      const item = cartList.value.find((item) => goods.goodsId === item.goodsId)
+      item.selected = selected
+    }
+    //删除购物车
+    const delCart = (goodsId) => {
+      //思路
+      //1.找到要删除项的下标值
+      //2.使用数组的过滤方法
+      const index = cartList.value.findIndex((item) => goodsId === item.goodsId)
+      cartList.value.splice(index, 1)
+    }
+    const allCount = computed(() => cartList.value.reduce((a, c) => a + c.count, 0))
+    const allPrice = computed(() => cartList.value.reduce((a, c) => a + c.count * c.price, 0))
+
     return {
       cartList,
-      addCart
+      addCart,
+      delCart,
+      allCount,
+      allPrice,
+      singleCheck
     }
   },
   {
