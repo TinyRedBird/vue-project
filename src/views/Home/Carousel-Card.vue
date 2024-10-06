@@ -1,66 +1,78 @@
 <template>
-  <div class="carousel-container">
-    <div class="carousel" :style="carouselStyle">
-      <div class="carousel-item" v-for="(item, index) in items" :key="index">
-        < img :src="item.image" :alt="item.alt" />
+  <div class="banner">
+    <div class="banner-container"></div>
+    <div class="carousel-container">
+      <div class="carousel" :style="carouselStyle">
+        <div class="carousel-item" v-for="(item, index) in items" :key="index">
+          <img :src="item.url" :alt="item.id" />
+          <!-- <img src="" alt="" /> -->
+        </div>
       </div>
+      <button class="prev" @click="prev">←</button>
+      <button class="next" @click="next">→</button>
     </div>
-    <button class="prev" @click="prev">←</button>
-    <button class="next" @click="next">→</button>
   </div>
 </template>
 
-<script>
-export default {
-  data() {
-    return {
-      items: [
-        { image: 'https://via.placeholder.com/600x400?text=Image+1', alt: 'Image 1' },
-        { image: 'https://via.placeholder.com/600x400?text=Image+2', alt: 'Image 2' },
-        { image: 'https://via.placeholder.com/600x400?text=Image+3', alt: 'Image 3' },
-      ],
-      currentIndex: 0,
-      intervalId: null,
-    };
-  },
-  computed: {
-    carouselStyle() {
-      return {
-        transform: `translateX(-${this.currentIndex * 800}px)`,
-        transition: 'transform 0.5s ease-in-out',
-      };
-    },
-  },
-  methods: {
-    next() {
-      this.currentIndex = (this.currentIndex + 1) % this.items.length;
-    },
-    prev() {
-      this.currentIndex = (this.currentIndex - 1 + this.items.length) % this.items.length;
-    },
-    startAutoPlay() {
-      this.intervalId = setInterval(this.next, 2000);
-    },
-    stopAutoPlay() {
-      clearInterval(this.intervalId);
-    },
-  },
-  mounted() {
-    this.startAutoPlay();
-  },
-  beforeUnmount() {
-    this.stopAutoPlay();
-  },
-};
+<script setup>
+import { ref, onMounted, computed, onBeforeUnmount } from 'vue'
+import { homeBannerService } from '@/apis/home'
+const items = ref({})
+const currentIndex = ref(0)
+const intervalId = ref(null)
+
+const carouselStyle = computed(() => {
+  return {
+    transform: `translateX(-${currentIndex.value * 800}px)`,
+    transition: 'transform 0.5s ease-in-out'
+  }
+})
+
+function next() {
+  currentIndex.value = (currentIndex.value + 1) % items.value.length
+}
+
+function prev() {
+  currentIndex.value = (currentIndex.value - 1 + items.value.length) % items.value.length
+}
+
+function startAutoPlay() {
+  intervalId.value = setInterval(next, 2000)
+}
+
+function stopAutoPlay() {
+  clearInterval(intervalId.value)
+}
+const useBanner = async () => {
+  let result = await homeBannerService()
+  items.value = result.data
+
+  console.log(result.data)
+}
+
+onMounted(() => {
+  useBanner()
+  startAutoPlay()
+})
+
+onBeforeUnmount(() => {
+  stopAutoPlay()
+})
 </script>
 
 <style scoped>
+.banner {
+  display: flex;
+}
+
 .carousel-container {
+  top: 50px;
   margin: 0 auto;
   position: relative;
   width: 800px;
   height: 400px;
   overflow: hidden;
+  display: flex;
 }
 
 .carousel {

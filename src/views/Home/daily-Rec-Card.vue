@@ -8,8 +8,6 @@
             :src="item.goodsPicture"
             :title="item.goodsDescription"
             class="img-container rounded-lg"
-            width="200"
-            height="200"
             loading="lazy"
             data-blurhash="LYAeROVqBHtTOco$rpM|ETn#xTa#"
             crossorigin="anonymous"
@@ -58,9 +56,7 @@ defineProps({
 
 <style scoped>
 .Daily-Rec-Container {
-  /* flex: 1 1 0%;
-  display: flex; */
-  width: 305px;
+  width: 298px;
   height: 380px;
   display: inline-block;
   position: relative;

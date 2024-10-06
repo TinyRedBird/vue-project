@@ -9,6 +9,9 @@ export const getSaleGoodsList = (params) => {
   return request.get('/sale', { params: params })
 }
 
+export const homeBannerService = () => {
+  return request.get('/banner')
+}
 //*******************************//
 // export const postAction = (url, parameter) => {
 //   return axios({
