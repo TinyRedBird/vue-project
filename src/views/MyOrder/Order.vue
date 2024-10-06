@@ -33,8 +33,8 @@
 </template>
 
 <script>
-import { useCartStore } from '@/stores/cartStore'
-const cartStore = useCartStore()
+// import { useCartStore } from '@/stores/cartStore'
+// const cartStore = useCartStore()
 </script>
 
 <style scoped>
