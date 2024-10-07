@@ -1,7 +1,7 @@
 import request from '@/utils/request'
-export const insertCartService = (params, headers) => {
+export const insertCartService = (params) => {
   console.log('insertCartService')
-  return request.post('/cart', params, headers)
+  return request.post('/cart', params)
 }
 
 export const findNewCartListService = (params) => {
