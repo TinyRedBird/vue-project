@@ -30,7 +30,7 @@ import { ref } from 'vue'
 //
 const route = useRoute()
 const product = ref([])
-console.log(route.params.storeId, route.params.goodsId)
+// console.log(route.params.storeId, route.params.goodsId)
 
 const getGoods = async () => {
   const storeId = Number(route.params.storeId)

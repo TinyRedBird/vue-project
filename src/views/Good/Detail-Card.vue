@@ -133,7 +133,7 @@ const addCart = () => {
 
 //参数
 const route = useRoute()
-console.log(route.params.storeId, route.params.goodsId)
+// console.log(route.params.storeId, route.params.goodsId)
 //
 const product = ref([])
 const getGoods = async () => {
@@ -143,7 +143,7 @@ const getGoods = async () => {
   const result = await getSaleDetail(params)
   product.value = result.data
 }
-console.log(product)
+// console.log(product)
 getGoods()
 </script>
 <style scoped>
