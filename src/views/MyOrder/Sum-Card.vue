@@ -1,17 +1,7 @@
 <template>
   <div class="sum-card-container">
     <!--  -->
-    <!-- <div class="Sum-Head">
-      <div class="Bold-Text"><span>结算明细</span></div>
-      <div class="Cin-Text"><span>已选0件商品</span></div>
-    </div>
-    
-    <div class="Sum-Content"></div>
-    
-    <div class="Sum-Foot">
-      <div><span></span></div>
-      <div><button></button></div>
-    </div> -->
+
     <el-card class="Sum-Card">
       <template #header>
         <div class="card-header">
@@ -40,8 +30,7 @@
 
 <script setup>
 import { useCartStore } from '@/stores/cartStore'
-let cartStore = useCartStore()
-// console.log(cartStore.selectedItems)
+const cartStore = useCartStore()
 </script>
 
 <style scoped>
