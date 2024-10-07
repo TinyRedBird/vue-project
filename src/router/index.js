@@ -34,7 +34,6 @@ const routes = [
     path: '/Good/:storeId/:goodsId',
     name: 'Good',
     component: Good
-    // redirect: ''
   },
   {
     path: '/Shop/:storeId/:typeId',
