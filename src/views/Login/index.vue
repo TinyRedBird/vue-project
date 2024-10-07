@@ -1,27 +1,63 @@
 <template>
   <div class="login-container">
     <h1 class="title">注册</h1>
-    <form :model="form">
+    <form :model="ResisterData">
       <div class="loginBox">
         <label for="mail"><i class="fa fa-envelope-o"></i></label>
-        <input type="text" id="mail" placeholder="请输入邮箱号" required />
+        <input
+          type="text"
+          id="email"
+          placeholder="请输入邮箱号"
+          v-model="ResisterData.email"
+          required
+        />
         <label for="username"><i class="fa fa-user-o"></i></label>
-        <input type="text" id="username" placeholder="请输入用户名" required />
+        <input
+          type="text"
+          id="username"
+          placeholder="请输入用户名"
+          v-model="ResisterData.username"
+          required
+        />
         <label for="password"><i class="fa fa-lock"></i></label>
-        <input type="password" id="password" placeholder="请输入密码" required />
+        <input
+          type="password"
+          id="password"
+          placeholder="请输入密码"
+          v-model="ResisterData.password"
+          required
+        />
         <label for="verificationcode"><i class="fa fa-thin fa-key"></i></label>
         <div class="inputWapper">
-          <input type="text" id="verificationcode" placeholder="请输入验证码" required />
+          <input
+            type="text"
+            id="verificationcode"
+            placeholder="请输入验证码"
+            v-model="ResisterData.verifyCode"
+            required
+          />
 
           <a href="/" class="sendMessage">获取验证码</a>
         </div>
-        <button type="submit" class="submitBtn">注册</button>
+        <button type="submit" class="submitBtn" @click="register">注册</button>
       </div>
     </form>
   </div>
 </template>
 
-<script>
+<script setup>
+import { ref } from 'vue'
+import { userRegisterService } from '@/apis/user'
+const ResisterData = ref({
+  email: '',
+  username: '',
+  password: '',
+  verifyCode: ''
+})
+const register = async () => {
+  let result = await userRegisterService(ResisterData.value)
+  console.log(result)
+}
 //表单校验功能
 </script>
 
