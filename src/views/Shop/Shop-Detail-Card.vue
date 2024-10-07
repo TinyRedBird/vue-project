@@ -1,6 +1,6 @@
 <template>
   <div class="Daily-Rec-Container" v-for="item in store" :key="item.goodsId">
-    <RouterLink :to="`/Good/${item.storeId}/${item.goodsId}`">
+    <RouterLink :to="`/Good/${item.storeId}/${item.goodsId}`" @change.prevent="getStoreSale">
       <div class="flex-col">
         <div class="Content-Container rounded-lg">
           <img
@@ -27,7 +27,7 @@
 <script setup>
 import { useRoute } from 'vue-router'
 import { getStoreSaleService } from '@/apis/store'
-import { ref } from 'vue'
+import { ref, watch } from 'vue'
 const route = useRoute()
 let store = ref({})
 //
@@ -48,8 +48,14 @@ const getStoreSale = async () => {
   // console.log(store)
 }
 
-  getStoreSale()
-
+watch(
+  () => route.params.typeId,
+  async (newtypeId) => {
+    await getStoreSale()
+    console.log(newtypeId)
+  },
+  { immediate: true }
+)
 </script>
 <style>
 .Daily-Rec-Container > * {
