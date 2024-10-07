@@ -1,4 +1,4 @@
-<template>
+<!-- <template>
   <div>
     <div class="pickContentItem">
       <a href="/">
@@ -15,7 +15,7 @@
       </a>
     </div>
   </div>
-</template>
+</template> -->
 
 <script setup>
 import { useRoute } from 'vue-router'
