@@ -15,7 +15,7 @@
                       <li
                         class="nexttabstab SortBarcustomTabItem customTab"
                         v-bind:class="{ active: isActive }"
-                        @click="isActive"
+                        @click="showActive"
                       >
                         <div class="nexttabstabinner">综合</div>
                       </li>
@@ -23,7 +23,8 @@
                         aria-hidden="false"
                         aria-selected="false"
                         class="Pricetab nexttabstab SortBarcustomTabItem"
-                        v-bind:class="{ active: isActive }"
+                        v-bind:class="{ active: !isActive }"
+                        @click="showActive"
                       >
                         <div class="nexttabstabinner">价格</div>
                       </li>
@@ -43,9 +44,12 @@
 </template>
 
 <script setup>
-import SearchCard from './SearchCard.vue'
-
-const isActive = true
+import { ref } from 'vue'
+import SearchCard from './SearchGoodItemCard.vue'
+let isActive = ref(true)
+const showActive = () => {
+  isActive.value = !isActive.value
+}
 </script>
 
 <style scoped>
@@ -57,14 +61,14 @@ const isActive = true
 }
 
 .nexttabs.nextmedium .nexttabstabinner {
-  font-size: 12px;
-  padding: 12px 16px;
+  font-size: 16px;
+  padding: 1px 16px;
 }
 
 .nexttabs.nextmedium .nexttabstabinner {
   font-family: PingFang SC;
-  font-size: 16px !important;
-  padding: 0 13px !important;
+  /* font-size: 16px !important;
+  padding: 0 13px !important; */
 }
 .nexttabstabinner {
   position: relative;
@@ -74,7 +78,7 @@ const isActive = true
 
 .customTab {
   font-size: 16px;
-  font-weight: 600;
+  font-weight: 400;
   border-color: transparent;
   color: rgb(255, 98, 0);
 }
@@ -94,6 +98,7 @@ const isActive = true
 .nexttabswrapped > .nexttabsbar .nexttabstab.active {
   z-index: 1;
   color: #ff5f00;
+  font-weight: 600;
   background-color: #ffffff;
 }
 .nexttabswrapped > .nexttabsbar .nexttabstab {
