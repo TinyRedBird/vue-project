@@ -5,27 +5,27 @@
         <div class="User-Container">
           <img
             src="https://img.ixintu.com/download/jpg/20200901/3e9ce3813b7199ea9588eeb920f41208_512_512.jpg!ys"
-            alt=""
+            :alt="userInfoStore.info.username"
           />
           <div class="User-Text">
             <span>{{ userInfoStore.info.username }}</span>
           </div>
         </div>
         <div title="myorder" class="shop-cart-container">
-          <a href=""><i class="fa fa-shopping-cart fa-3x" aria-hidden="true"></i></a>
+          <span><i class="fa fa-shopping-cart fa-3x" aria-hidden="true"></i></span>
         </div>
       </template>
 
       <!-- 退出登录  -->
       <div @click="confirm" class="Login-btn">
-        <div v-if="userInfoStore.info">
+        <div v-if="result">
           <span>退出登录</span>
         </div>
         <div v-else>
           <span>登录</span>
         </div>
       </div>
-     
+
       <div class="Login-btn" @click="pushToOrder">
         <div><span>我的购物车</span></div>
       </div>
@@ -46,18 +46,19 @@
 import { useRouter } from 'vue-router'
 import useUserInfoStore from '@/apis/userInfo'
 import { userInfoService } from '@/apis/user'
+import { ref } from 'vue'
 const userInfoStore = useUserInfoStore()
 const router = useRouter()
 
 const confirm = () => {
   console.log('确定要退出登录退出？')
-  userInfoStore.removeInfo()
+  // userInfoStore.removeInfo()
 }
-
+let result = ref(null)
 const getUserInfo = async () => {
-  const result = await userInfoService()
-  userInfoStore.setInfo(result.data)
-  // console.log(result.data)
+  result.value = await userInfoService()
+  // userInfoStore.setInfo(result.value.data)
+  console.log(result.value.data)
 }
 getUserInfo()
 
