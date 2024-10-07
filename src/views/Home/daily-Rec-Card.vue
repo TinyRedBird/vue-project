@@ -41,9 +41,9 @@ const fetchGoodsList = async () => {
   }
   let result = await getSaleGoodsList(params)
   saleGoodsList.value = result.data.items
-  alert(result.msg ? result.msg : '获取商品列表失败')
+  // alert(result.msg ? result.msg : '获取商品列表失败')
 }
-console.log(saleGoodsList)
+// console.log(saleGoodsList)
 fetchGoodsList()
 
 defineProps({
