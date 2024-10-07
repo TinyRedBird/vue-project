@@ -17,6 +17,9 @@ export const userLoginService = (loginData) => {
   return request.post('/user/login', params)
 }
 
+export const useCodeSerivce = () => {
+  return request.get('/getCode')
+}
 //detail
 export const userInfoService = () => {
   return request.get('/user/detail')
