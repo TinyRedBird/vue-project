@@ -1,7 +1,7 @@
 <script setup>
 import { ref } from 'vue';
 import { Plus } from '@element-plus/icons-vue';
-import { uploadService } from '@/api/upload';
+import { uploadService } from '@/apis/upload';
 
 const imageUrl = ref()
 var file = ref()
@@ -10,7 +10,7 @@ const onSelectFile = (uploadFile) => {
     imageUrl.value = URL.createObjectURL(uploadFile.raw)
 }
 const upload = async () => {
-    return await uploadService(file)
+    return await uploadService(file.value)
 }
 defineExpose({
     imageUrl,
