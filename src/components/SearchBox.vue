@@ -28,7 +28,7 @@
       <div>
         <input
           type="text"
-          v-model="KeyWord"
+          v-model="searchKey"
           placeholder="请输入搜索内容"
           name="search"
           class="search"
@@ -40,7 +40,7 @@
         id="serachSubmit"
         class="serachBtn"
         value="搜索"
-        @click="searchProducts"
+        @click.prevent="performSearch"
       />
     </div>
   </div>
@@ -49,7 +49,6 @@
 <script setup>
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
-import { getSaleGoodsList } from '@/apis/sale'
 
 const router = useRouter()
 
@@ -57,42 +56,23 @@ const router = useRouter()
 const selectedType = ref('商品') // 默认选中商品
 const searchTypes = ref(['商品', '店铺'])
 //
-const KeyWord = ref('')
-const currentPage = ref(1)
-const pageSize = ref(20)
-//
-let StoreList = ref({})
-//
-const fetchStoreList = async () => {
-  let result = await getSaleGoodsList({
-    currentPage: currentPage.value,
-    pageSize: pageSize.value,
-    key: KeyWord.value
-  })
-  StoreList.value = result.data.items
-  // console.log(KeyWord, 11)
-  return StoreList
-}
+const searchKey = ref('')
 
-function searchProducts() {
-  //   // 判断搜索是否为空
-  StoreList.value = fetchStoreList()
-  console.log(StoreList)
+//
 
-  if (!KeyWord.value) {
+const performSearch = () => {
+  // 判断搜索是否为空
+
+  if (!searchKey.value) {
     alert('请输入搜索内容')
     return
   }
   // 根据选中的类型进行搜索
-  let path = ''
   if (selectedType.value === '商品') {
-    path = `/SearchGood/${Number(StoreList.value.goodsId)}`
-  } else if (selectedType.value === '商店') {
-    path = '/SearchShop'
+    router.push({ name: 'SearchGood', params: { keyWord: searchKey.value } })
+  } else {
+    router.push({ name: 'SearchShop', params: { keyWord: searchKey.value } })
   }
-  router.push({
-    path: path
-  })
   // 调用接口获取数据
 }
 function selectType(type) {
