@@ -43,7 +43,6 @@ getStoreType()
 
 function SeletedTypeSale(typeId) {
   console.log(typeId)
-  location.reload()
 }
 </script>
 
