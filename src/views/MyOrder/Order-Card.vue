@@ -36,10 +36,10 @@ import { useCartStore } from '@/stores/cartStore'
 
 const cartStore = useCartStore()
 const handleChange = () => {
-  console.log(cartStore.cartList)
+  // console.log(cartStore.cartList)
 }
 const singleCheck = (item, selected) => {
-  console.log(item, selected)
+  // console.log(item, selected)
   cartStore.singleCheck(item, selected)
 }
 </script>
