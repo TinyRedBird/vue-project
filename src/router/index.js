@@ -33,13 +33,8 @@ const routes = [
   {
     path: '/Good/:storeId/:goodsId',
     name: 'Good',
-    component: Good,
-    redirect: '',
-    children: [
-      {
-        path: ''
-      }
-    ]
+    component: Good
+    // redirect: ''
   },
   {
     path: '/Shop/:storeId/:typeId',
@@ -47,12 +42,12 @@ const routes = [
     component: Shop
   },
   {
-    path: '/SearchGood/:goodsId',
+    path: '/SearchGood/:keyWord',
     name: 'SearchGood',
     component: SearchGood
   },
   {
-    path: '/SearchShop/:storeId',
+    path: '/SearchShop/:keyWord',
     name: 'SearchShop',
     component: SearchShop
   },
