@@ -1,28 +1,36 @@
 <template>
-  <div class="SearchShopBoxWarrper">
-    <div class="SearchShopBox">
-      <div class="ShopCardWarrper" @click="$router.push(`/shop/${storeData.id}`)">
-        <div class="HeaderTextWrapper">
-          <div><i class="fa fa-home SearchShopIcon"></i></div>
-          <div class="SearchShopText">
-            <span>{{ storeData.name }}</span>
-            <div class="exp-info">
-              <span class="store-adderss">{{ storeData.address }}</span>
-              <span class="store-tel">联系电话{{ storeData.tel }}</span>
+  <div v-for="item in storeData" v-bind:key="item.id">
+    <div class="SearchShopBoxWarrper">
+      <div class="SearchShopBox">
+        <div class="ShopCardWarrper">
+          <div class="HeaderTextWrapper">
+            <div><img :src="item.logo" class="SearchShopIcon" /></div>
+            <div class="SearchShopText">
+              <span>{{ item.name }}</span>
+              <div class="exp-info">
+                <span class="store-adderss">{{ item.address }}</span>
+                <span class="store-tel">联系电话{{ item.tel }}</span>
+              </div>
             </div>
           </div>
-        </div>
 
-        <div class="ShopCardPic">
-          <div class="Pic-Container" v-for="(item, index) in storeData1" v-bind:key="item.storeId">
-            <img
-              v-if="index < 4"
-              :key="index"
-              :src="item.goodsPicture"
-              :title="item.goodsDescription"
+          <div class="ShopCardPic">
+            <div
               class="Pic-Container"
-            />
-            <span class="ShopCardPrice" v-if="index < 4">{{ item.price }}￥</span>
+              v-for="(good, index) in item.goods"
+              v-bind:key="good.storeId"
+            >
+              <RouterLink :to="`/Shop/${item.id}/${good.typeId}`">
+                <img
+                  v-if="index < 4"
+                  :key="index"
+                  :src="good.goodsPicture"
+                  :title="good.goodsDescription"
+                  class="Pic-Container"
+                />
+                <span class="ShopCardPrice" v-if="index < 4">{{ good.price }}￥</span>
+              </RouterLink>
+            </div>
           </div>
         </div>
       </div>
@@ -31,24 +39,36 @@
 </template>
 
 <script setup>
+import { useRoute } from 'vue-router'
 import { ref } from 'vue'
-import { getStoreService, getStoreSaleService } from '@/apis/store'
-let storeId = Number(1)
-let storeData = ref({})
-let storeData1 = ref({})
-const getStoreById = async (id) => {
-  const result = await getStoreService(id)
+import { getStoreDetailService, getStoreSaleService } from '@/apis/store'
+const route = useRoute()
+const storekeyWord = ref(route.params.keyWord)
+const storeData = ref({})
+
+const getStoreById = async () => {
   const params = {
     currentPage: 1,
-    pageSize: 10
+    pageSize: 30,
+    key: storekeyWord.value
   }
-  const result2 = await getStoreSaleService(id, params)
-  storeData1.value = result2.data.items
-  storeData.value = result.data
+  const result = await getStoreDetailService(params)
+  storeData.value = result.data.items
+  //
+  // console.log(storeData)
+  storeData.value.forEach(async (item) => {
+    // console.log(item.id)
+    const params = {
+      currentPage: 1,
+      pageSize: 30
+    }
+    const goodsResult = await getStoreSaleService(item.id, params)
+
+    item.goods = goodsResult.data.items
+    console.log(item.goods)
+  })
 }
-console.log(storeData1)
-console.log(storeData)
-getStoreById(storeId)
+getStoreById()
 </script>
 
 <style scoped>
@@ -107,6 +127,8 @@ getStoreById(storeId)
 
 .SearchShopIcon {
   font-size: 28px;
+  width: 40px;
+  height: 40px;
 }
 .Pic-Container {
   margin: 0;
@@ -137,7 +159,7 @@ getStoreById(storeId)
   flex-direction: column;
   position: relative;
   top: 50px;
-  /* margin: 0 auto; */
+  margin: 20px auto;
   border-radius: 20px;
   box-shadow: 0 4px 15px 10px rgba(182, 213, 215, 0.7);
 }

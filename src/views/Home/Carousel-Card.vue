@@ -47,7 +47,7 @@ const useBanner = async () => {
   let result = await homeBannerService()
   items.value = result.data
 
-  console.log(result.data)
+  // console.log(result.data)
 }
 
 onMounted(() => {

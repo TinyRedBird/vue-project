@@ -1,5 +1,5 @@
 <template>
-  <el-card class="Order-Container" v-for="item in cartStore.cartList" :key="item.goodsDescription">
+  <el-card class="Order-Container" v-for="item in cartStore.cartList.items" :key="item.goodsId">
     <template #header>
       <div class="card-header">
         <el-checkbox
@@ -18,13 +18,13 @@
           <span>{{ item.goodsDescription }}</span>
         </div>
         <div class="Price-Count">
-          <span>{{ item.price }}元</span>
+          <span>{{ item.goodsPrice }}元</span>
         </div>
         <div class="Count-Num">
-          <el-input-number v-model="item.count" :min="1" :max="item.stock" @change="handleChange" />
+          <el-input-number v-model="item.quantity" :min="1" :max="item.stock" />
         </div>
         <div class="delete-Count">
-          <el-button @click.prevent="cartStore.delCart(item.goodsId)">删除</el-button>
+          <el-button @click.prevent="cartStore.delCart(item.id)">删除</el-button>
         </div>
       </div>
     </div>
@@ -35,11 +35,10 @@
 import { useCartStore } from '@/stores/cartStore'
 
 const cartStore = useCartStore()
-const handleChange = () => {
-  // console.log(cartStore.cartList)
-}
+// console.log('test', cartStore.cartList.items)
+
 const singleCheck = (item, selected) => {
-  // console.log(item, selected)
+  // console.log('id', item, selected)
   cartStore.singleCheck(item, selected)
 }
 </script>

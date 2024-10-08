@@ -69,7 +69,7 @@
                         <span class="quantityBtnTextForPC">+</span>
                       </div> -->
                       <el-input-number
-                        v-model="count"
+                        v-model="quantity"
                         :min="1"
                         :max="product.stock"
                         @change="handleChange"
@@ -107,9 +107,9 @@ import { ElMessage } from 'element-plus'
 //购物车
 import { useCartStore } from '@/stores/cartStore'
 const cartStore = useCartStore()
-const count = ref(1)
-const handleChange = (count) => {
-  console.log(count)
+const quantity = ref(1)
+const handleChange = (quantity) => {
+  console.log(quantity)
 }
 const addCart = () => {
   // {
@@ -118,16 +118,18 @@ const addCart = () => {
     type: 'success'
   })
   cartStore.addCart({
-    goodsId: product.value.goodsId,
     goodsDescription: product.value.goodsDescription,
-    goodsUnit: product.value.goodsUnit,
-    goodsPicture:product.value.goodsPicture,
-    price: product.value.price,
-    count: count.value,
-    stock: product.value.stock,
+    goodsId: product.value.goodsId,
+    goodsPicture: product.value.goodsPicture,
+    goodsPrice: product.value.price,
+    id: 1,
+    quantity: quantity.value,
+    selected: true,
     storeId: product.value.storeId,
-    storeName: product.value.storeName,
-    selected: true
+    storeLogo: product.value.storeLogo,
+    storeName: product.value.storeName
+    // goodsUnit: product.value.goodsUnit,
+    // stock: product.value.stock,
   })
 }
 

@@ -14,11 +14,17 @@ export const userLoginService = (loginData) => {
   for (let key in loginData) {
     params.append(key, loginData[key])
   }
+  console.log('login', params)
+
   return request.post('/user/login', params)
 }
 
-export const useCodeSerivce = () => {
-  return request.get('/getCode')
+export const getCodeService = async (EmailData) => {
+  const params = new URLSearchParams()
+  for (let key in EmailData) {
+    params.append(key, EmailData[key])
+  }
+  return request.get('/getCode', { params })
 }
 //detail
 export const userInfoService = () => {

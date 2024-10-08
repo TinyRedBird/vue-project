@@ -26,38 +26,21 @@ service.interceptors.response.use(
   (result) => {
     if (result.data.code === 0) {
       return result.data
+    } else {
+      alert(result.data.msg ? result.data.msg : '服务器异常')
+      return Promise.reject(new Error(result.data.msg))
     }
 
-    alert(result.data.msg ? result.data.msg : '服务器异常')
+    // alert(result.data.msg ? result.data.msg : '服务器异常')
     //异步操作
-    return Promise.reject(result.data)
+    // return Promise.reject(result.data)
   },
   (err) => {
-    alert('异常')
+    alert('网络异常，请检查您的网络连接')
     return Promise.reject(err)
   }
 )
 ////
-// function vaildateEmail() {
-//   const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
-//   if (!emailPattern.test(account.value)) {
-//     alert('请输入有效的邮箱地址')
-//   }
-// }
-
-/* 是否邮箱*/
-// export function validateEMail(rule, value, callback) {
-//   const reg = /^([a-zA-Z0-9]+[-_\.]?)+@[a-zA-Z0-9]+\.[a-z]+$/
-//   if (value == '' || value == undefined || value == null) {
-//     callback()
-//   } else {
-//     if (!reg.test(value)) {
-//       callback(new Error('请输入正确的邮箱地址'))
-//     } else {
-//       callback()
-//     }
-//   }
-// }
 
 /*验证内容是否英文数字以及下划线*/
 export function isPassword(rule, value, callback) {

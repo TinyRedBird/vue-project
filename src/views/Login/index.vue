@@ -47,18 +47,24 @@
 
 <script setup>
 import { ref } from 'vue'
-import { userRegisterService } from '@/apis/user'
+import { getCodeService } from '@/apis/user'
 const ResisterData = ref({
-  email: '',
+  email: '3154983378@qq.com',
   username: '',
   password: '',
   verifyCode: ''
 })
-const register = async () => {
-  let result = await userRegisterService(ResisterData.value)
-  console.log(result)
+const useCode = async () => {
+  console.log(ResisterData.value.email)
+
+  const code = await getCodeService({ email: ResisterData.value.email })
+  console.log('Verification code:', code)
 }
-//表单校验功能
+useCode()
+// const register = async () => {
+//   let result = await userRegisterService(ResisterData.value)
+//   console.log(result)
+// }
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
