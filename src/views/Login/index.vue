@@ -11,6 +11,7 @@
           v-model="ResisterData.email"
           required
         />
+
         <label for="username"><i class="fa fa-user-o"></i></label>
         <input
           type="text"
@@ -25,6 +26,7 @@
           id="password"
           placeholder="请输入密码"
           v-model="ResisterData.password"
+          autocomplete="off"
           required
         />
         <label for="verificationcode"><i class="fa fa-thin fa-key"></i></label>
@@ -37,7 +39,8 @@
             required
           />
 
-          <a href="/" class="sendMessage">获取验证码</a>
+          <a @click="sendmsg" class="sendMessage" v-if="ResisterData.submitFlag">获取验证码</a>
+          <a class="sendMessage" v-if="!ResisterData.submitFlag">剩余{{ ResisterData.second }}s</a>
         </div>
         <button type="submit" class="submitBtn" @click="register">注册</button>
       </div>
@@ -47,24 +50,59 @@
 
 <script setup>
 import { ref } from 'vue'
-import { getCodeService } from '@/apis/user'
+import { getCodeService, userRegisterService } from '@/apis/user'
+import { ElMessage } from 'element-plus'
+import router from '@/router'
 const ResisterData = ref({
-  email: '3154983378@qq.com',
+  email: '',
   username: '',
   password: '',
-  verifyCode: ''
+  verifyCode: '',
+  submitFlag: true,
+  second: 60,
+  timer: null,
+  msg: ''
 })
 const useCode = async () => {
-  console.log(ResisterData.value.email)
-
   const code = await getCodeService({ email: ResisterData.value.email })
-  console.log('Verification code:', code)
+  if (code === 0) {
+    ResisterData.value.msg = '验证码已发送至邮箱，请注意查收'
+    return true
+  } else if (code === 1) {
+    ResisterData.value.msg = '请输入邮箱'
+  }
 }
-useCode()
-// const register = async () => {
-//   let result = await userRegisterService(ResisterData.value)
-//   console.log(result)
-// }
+
+const sendmsg = () => {
+  if (!ResisterData.value.email) {
+    ElMessage('请输入邮箱')
+    return
+  }
+  ResisterData.value.submitFlag = !useCode()
+
+  ResisterData.value.timer = setInterval(function () {
+    if (ResisterData.value.second <= 0) {
+      ResisterData.value.second = 60
+      ResisterData.value.submitFlag = true
+      clearInterval(ResisterData.value.timer)
+    }
+    ResisterData.value.second -= 1
+  }, 1000)
+}
+const register = async () => {
+  const result = await userRegisterService({
+    email: ResisterData.value.email,
+    username: ResisterData.value.username,
+    password: ResisterData.value.password,
+    verifyCode: ResisterData.value.verifyCode
+  })
+  if (result.code == 0) {
+    router.push('/Login')
+  } else {
+    ElMessage('注册邮箱失败')
+  }
+
+}
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
@@ -115,6 +153,7 @@ useCode()
 }
 
 .sendMessage {
+  cursor: pointer;
   float: right;
   width: 32%;
   height: 100%;

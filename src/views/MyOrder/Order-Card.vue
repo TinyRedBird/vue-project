@@ -33,12 +33,27 @@
 
 <script setup>
 import { useCartStore } from '@/stores/cartStore'
+import { watch } from 'vue'
 
 const cartStore = useCartStore()
-// console.log('test', cartStore.cartList.items)
+const items = cartStore.cartList.items
+
+watch(
+  items,
+  (newItems, oldItems) => {
+    newItems.forEach((item) => {
+      // 这里可以调用更新购物车信息的方法
+      // console.log(`商品ID: ${item.goodsId}, 新的数量: ${item.quantity}`)
+      // console.log(item, 'watchitem')
+      cartStore.addCart(item)
+    })
+  },
+  {
+    deep: true // 深度监听，因为变化发生在数组内部的对象上
+  }
+)
 
 const singleCheck = (item, selected) => {
-  // console.log('id', item, selected)
   cartStore.singleCheck(item, selected)
 }
 </script>

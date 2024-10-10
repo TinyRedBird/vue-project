@@ -122,7 +122,7 @@ const addCart = () => {
     goodsId: product.value.goodsId,
     goodsPicture: product.value.goodsPicture,
     goodsPrice: product.value.price,
-    id: 1,
+    id: product.value.goodsId,
     quantity: quantity.value,
     selected: true,
     storeId: product.value.storeId,

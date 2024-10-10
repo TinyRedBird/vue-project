@@ -26,6 +26,7 @@
           没有有账号？<span class="gotoResister">点击注册</span>
         </p>
         <input type="submit" class="RegisterBtn" @click.prevent="login" value="登录" />
+        <!-- <Vcode :show="isShow" @success="onSuccess" @close="onClose" /> -->
         <p><span>忘记密码</span></p>
       </div>
     </form>
@@ -34,6 +35,7 @@
 
 <script setup>
 import { ref } from 'vue'
+// import Vcode from 'vue3-puzzle-vcode'
 import { userLoginService } from '@/apis/user'
 import { useRouter } from 'vue-router'
 import { useTokenStore } from '@/stores/token'
@@ -49,12 +51,11 @@ const LoginData = ref({
 
 const login = async () => {
   let result = await userLoginService(LoginData.value)
-  // console.log(result.msg ? result.msg : '登陆成功')
   tokenStore.setToken(result.data)
-  // console.log(result.data)
   //跳转到首页
   router.push('/')
 }
+
 </script>
 
 <style>

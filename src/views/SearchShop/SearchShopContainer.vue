@@ -40,35 +40,45 @@
 
 <script setup>
 import { useRoute } from 'vue-router'
-import { ref } from 'vue'
+import { ref, watch } from 'vue'
 import { getStoreDetailService, getStoreSaleService } from '@/apis/store'
+import { useInjectSearchContext } from '@/stores/search-context'
+
 const route = useRoute()
-const storekeyWord = ref(route.params.keyWord)
+const search = useInjectSearchContext()
 const storeData = ref({})
 
 const getStoreById = async () => {
   const params = {
     currentPage: 1,
     pageSize: 30,
-    key: storekeyWord.value
+    key: search.searchKey
   }
   const result = await getStoreDetailService(params)
   storeData.value = result.data.items
   //
-  // console.log(storeData)
+
   storeData.value.forEach(async (item) => {
-    // console.log(item.id)
     const params = {
       currentPage: 1,
       pageSize: 30
     }
     const goodsResult = await getStoreSaleService(item.id, params)
-
     item.goods = goodsResult.data.items
-    console.log(item.goods)
+
   })
 }
-getStoreById()
+
+watch(
+  () => route.params.keyWord,
+  async (newKeyWord) => {
+    if (newKeyWord) {
+      search.searchKey = newKeyWord
+      getStoreById()
+    }
+  },
+  { immediate: true }
+)
 </script>
 
 <style scoped>
@@ -175,6 +185,7 @@ getStoreById()
   justify-content: space-between;
   display: flex;
   flex-direction: row;
+  height: 250px;
   width: 100%;
 }
 </style>

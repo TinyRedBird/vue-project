@@ -3,14 +3,8 @@
   <div class="Search-box-container">
     <!-- 搜索类型选项 -->
     <div data-sg-type="tab">
-      <ul class="searchsuggesttabs">
-        <!-- <i class="fa fa-angle-down searchtabicon"></i>
-        <li class="searchsuggesttabstab selected" >
-        <span class="searchsuggesttabstablabel">商品</span>
-      </li>
-      <li class="searchsuggesttabstab" data-value="shop" >
-       <span class="searchsuggesttabstablabel">店铺</span>
-      </li> -->
+      <i class="angle-container" @click="showOptions = true">^</i>
+      <ul class="searchsuggesttabs" v-if="showOptions">
         <li
           v-for="type in searchTypes"
           :key="type"
@@ -19,6 +13,11 @@
           @click="selectType(type)"
         >
           {{ type }}
+        </li>
+      </ul>
+      <ul class="searchsuggesttabs" v-else>
+        <li class="search-types" :class="{ active: selectedType === type }">
+          {{ selectedType }}
         </li>
       </ul>
     </div>
@@ -49,34 +48,51 @@
 <script setup>
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
-
+//
 const router = useRouter()
+import { inject } from 'vue'
 
 //
-const selectedType = ref('商品') // 默认选中商品
+const search = inject('searchContext')
+console.log('Injected search:', search)
+if (!search) {
+  throw new Error('searchContext is not provided')
+}
+let { searchKey, selectedType } = search
+// console.log(searchKey, 123456789, selectedType)
+const showOptions = ref(false) // 控制选项是否显示
+// const selectedType = ref('商品') // 默认选中商品
+
 const searchTypes = ref(['商品', '店铺'])
-//
-const searchKey = ref('')
-
-//
-
+const type = ref('')
 const performSearch = () => {
   // 判断搜索是否为空
 
-  if (!searchKey.value) {
+  if (!searchKey) {
     alert('请输入搜索内容')
     return
   }
   // 根据选中的类型进行搜索
-  if (selectedType.value === '商品') {
-    router.push({ name: 'SearchGood', params: { keyWord: searchKey.value } })
+  if (selectedType === '商品') {
+    router.push({ name: 'SearchGood', params: { keyWord: searchKey } })
   } else {
-    router.push({ name: 'SearchShop', params: { keyWord: searchKey.value } })
+    router.push({ name: 'SearchShop', params: { keyWord: searchKey } })
   }
-  // 调用接口获取数据
 }
-function selectType(type) {
-  selectedType.value = type
+// function selectType(type) {
+//   selectedType = type
+// }
+
+// // 隐藏选项列表
+// const hideOptions = () => {
+//   showOptions.value = false
+// }
+
+// 选择一个选项，并更新输入框的值
+const selectType = (option) => {
+  selectedType = option // 更新搜索关键词
+  search.selectedType = selectedType
+  showOptions.value = false // 隐藏选项列表
 }
 </script>
 
@@ -90,6 +106,17 @@ function selectType(type) {
   width: 800px;
   margin: 0 auto;
 }
+.angle-container {
+  line-height: 40px;
+  justify-self: center;
+  font-family: 'Times New Roman', Times, serif;
+  font-size: 25px;
+  position: relative;
+  top: 10px;
+  left: 375px;
+  cursor: pointer;
+}
+
 .serachBtn {
   width: 20%;
   margin: 0;
@@ -196,7 +223,7 @@ li {
   overflow: hidden;
   cursor: pointer;
   top: 8px;
-  left: 308px;
+  left: 313px;
   display: flex;
   position: absolute;
   width: 60px;

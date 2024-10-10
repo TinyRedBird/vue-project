@@ -2,11 +2,8 @@
 import request from '@/utils/request'
 
 export const userRegisterService = (registerData) => {
-  const params = new URLSearchParams()
-  for (let key in registerData) {
-    params.append(key, registerData[key])
-  }
-  return request.post('/user/register', params)
+  // console.log('userRegisterService', registerData)
+  return request.post('/user/register', registerData)
 }
 
 export const userLoginService = (loginData) => {
@@ -14,8 +11,7 @@ export const userLoginService = (loginData) => {
   for (let key in loginData) {
     params.append(key, loginData[key])
   }
-  console.log('login', params)
-
+  // console.log('login', params)
   return request.post('/user/login', params)
 }
 
@@ -24,7 +20,7 @@ export const getCodeService = async (EmailData) => {
   for (let key in EmailData) {
     params.append(key, EmailData[key])
   }
-  return request.get('/getCode', { params })
+  return request.get('/code', { params })
 }
 //detail
 export const userInfoService = () => {

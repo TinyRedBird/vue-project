@@ -1,15 +1,14 @@
 <template>
-  <div class="Daily-Rec-Container" v-for="item in productList" :key="item.goodsId">
-    <RouterLink :to="`/Good/${item.storeId}/${item.goodsId}`">
+  <div class="Daily-Rec-Container" v-for="item in productList" :key="item.goodsId" >
+    <RouterLink :to="`/Good/${item.storeId}/${item.goodsId}`" >
       <div class="flex-col">
-        <div class="Content-Container rounded-lg">
+        <div class="Content-Container">
           <img
             v-img-lazy="item.goodsPicture"
             :src="item.goodsPicture"
             :title="item.goodsDescription"
-            class="img-container rounded-lg"
+            class="img-container"
             loading="lazy"
-            data-blurhash="LYAeROVqBHtTOco$rpM|ETn#xTa#"
             crossorigin="anonymous"
           />
           <div>
@@ -29,25 +28,28 @@
 import { ref, watch } from 'vue'
 import { getSaleGoodsList } from '@/apis/sale'
 import { useRoute } from 'vue-router'
+import { useInjectSearchContext } from '@/stores/search-context'
+///
 const route = useRoute()
+const search = useInjectSearchContext()
 const productList = ref([])
-const searchKey = ref(route.params.keyWord)
 
 const fetchStoreList = async () => {
   let result = await getSaleGoodsList({
     currentPage: 1,
     pageSize: 30,
-    key: searchKey.value
+    key: search.searchKey
   })
   productList.value = result.data.items
-  console.log(productList.value)
-  console.log(searchKey.value)
 }
+
 watch(
-  searchKey.value,
-  (newKey) => {
-    fetchStoreList()
-    console.log(newKey)
+  () => route.params.keyWord,
+  async (newKeyWord) => {
+    if (newKeyWord) {
+      search.searchKey = newKeyWord
+      fetchStoreList()
+    }
   },
   { immediate: true }
 )

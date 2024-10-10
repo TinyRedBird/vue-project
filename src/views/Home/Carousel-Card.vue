@@ -3,9 +3,8 @@
     <div class="banner-container"></div>
     <div class="carousel-container">
       <div class="carousel" :style="carouselStyle">
-        <div class="carousel-item" v-for="(item, index) in items" :key="index">
+        <div class="carousel-item" v-for="item in items" :key="item.id">
           <img :src="item.url" :alt="item.id" />
-          <!-- <img src="" alt="" /> -->
         </div>
       </div>
       <button class="prev" @click="prev">←</button>
@@ -44,10 +43,9 @@ function stopAutoPlay() {
   clearInterval(intervalId.value)
 }
 const useBanner = async () => {
-  let result = await homeBannerService()
+  const result = await homeBannerService()
   items.value = result.data
-
-  // console.log(result.data)
+  console.log(result.data)
 }
 
 onMounted(() => {

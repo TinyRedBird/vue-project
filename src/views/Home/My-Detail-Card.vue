@@ -17,27 +17,23 @@
       </template>
 
       <!-- 退出登录  -->
-      <div @click="confirm" class="Login-btn">
-        <div v-if="result">
-          <span>退出登录</span>
-        </div>
-        <div v-else>
-          <span>登录</span>
-        </div>
-      </div>
+      <el-button plain @click="centerDialogVisible = true"> 退出登录 </el-button>
+
+      <el-dialog v-model="centerDialogVisible" title="" width="500" center>
+        <span> 你确定要退出登录？ </span>
+        <template #footer>
+          <div class="dialog-footer">
+            <el-button @click="centerDialogVisible = false">取消</el-button>
+            <el-button type="primary" @click="centerDialogVisible = false"> 确定 </el-button>
+          </div>
+        </template>
+      </el-dialog>
 
       <div class="Login-btn" @click="pushToOrder">
-        <div><span>我的购物车</span></div>
-      </div>
-      <!-- <template v-else>
-        <div class="User-Container">
-          <img src="" alt="" />
-          <div><span></span></div>
-        </div>
         <div>
-          <a href=""><i class="fa fa-shopping-cart fa-3x" aria-hidden="true"></i></a>
+          <span>我的购物车</span>
         </div>
-      </template> -->
+      </div>
     </div>
   </div>
 </template>
@@ -49,15 +45,14 @@ import { userInfoService } from '@/apis/user'
 import { ref } from 'vue'
 const userInfoStore = useUserInfoStore()
 const router = useRouter()
-
+const centerDialogVisible = ref(false)
 const confirm = () => {
-  console.log('确定要退出登录退出？')
   // userInfoStore.removeInfo()
 }
 let result = ref(null)
 const getUserInfo = async () => {
   result.value = await userInfoService()
-  // userInfoStore.setInfo(result.value.data)
+  userInfoStore.setInfo(result.value.data)
   console.log(result.value.data)
 }
 getUserInfo()

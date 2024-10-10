@@ -45,14 +45,14 @@ const getStoreSale = async () => {
   }
   const result = await getStoreSaleService(storeId, params)
   store.value = result.data.items
-  // console.log(store)
+ 
 }
 
 watch(
   () => route.params.typeId,
   async (newtypeId) => {
     await getStoreSale()
-    console.log(newtypeId)
+
   },
   { immediate: true }
 )

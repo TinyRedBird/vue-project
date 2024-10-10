@@ -6,7 +6,13 @@
   <router-view></router-view>
 </template>
 
-<script setup></script>
+<script setup>
+import { provide } from 'vue'
+import { searchContext } from '@/stores/search-context'
+
+// 提供 searchContext
+provide('searchContext', searchContext)
+</script>
 
 <style>
 html,

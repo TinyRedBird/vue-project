@@ -16,7 +16,7 @@
             <span>{{ item.goodsDescription }}</span>
           </div>
           <div class="mt-2">
-            <span class="text-lg font-bold Price-text">{{ item.price }}</span>
+            <span class="Price-text">{{ item.price }}</span>
             <span class="text-muted-foreground">元</span>
           </div>
         </div>
@@ -29,7 +29,7 @@
 import { getSaleGoodsList } from '@/apis/home'
 import { ref } from 'vue'
 //分页数据
-const pageSize = ref(20)
+const pageSize = ref(30)
 const currentPage = ref(1)
 const saleGoodsList = ref([])
 
@@ -41,17 +41,16 @@ const fetchGoodsList = async () => {
   }
   let result = await getSaleGoodsList(params)
   saleGoodsList.value = result.data.items
-  // alert(result.msg ? result.msg : '获取商品列表失败')
 }
 // console.log(saleGoodsList)
 fetchGoodsList()
 
-defineProps({
-  goods: {
-    type: Object,
-    default: () => {}
-  }
-})
+// defineProps({
+//   goods: {
+//     type: Object,
+//     default: () => {}
+//   }
+// })
 </script>
 
 <style scoped>

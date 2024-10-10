@@ -36,7 +36,7 @@ const getStoreSale = async () => {
   const result = await getStoreSaleService(storeId, params)
   store.value = result.data.items
 }
-console.log(store)
+// console.log(store)
 
 getStoreSale()
 </script>

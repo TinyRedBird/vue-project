@@ -1,4 +1,4 @@
-<template>
+<!-- <template>
   <div v-for="item in productList" :key="item.goodsId">
     <div class="PickItem">
       <div class="">
@@ -48,4 +48,4 @@ watch(
   background-color: #efefef;
   border: 1px solid #bbb;
 }
-</style>
+</style> -->

@@ -11,6 +11,8 @@
 <script setup>
 import SearchBox from '../../components/SearchBox.vue'
 import PageContent from '../SearchGood/PageContent.vue'
+
+
 </script>
 
 <style scoped>
