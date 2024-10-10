@@ -1,28 +1,30 @@
 <template>
-  <div class="Daily-Rec-Container" v-for="item in saleGoodsList" :key="item.goodsId">
-    <RouterLink :to="`/Good/${item.storeId}/${item.goodsId}`">
-      <div class="flex-col">
-        <div class="Content-Container rounded-lg">
-          <img
-            v-img-lazy="item.goodsPicture"
-            :src="item.goodsPicture"
-            :title="item.goodsDescription"
-            class="img-container rounded-lg"
-            loading="lazy"
-            data-blurhash="LYAeROVqBHtTOco$rpM|ETn#xTa#"
-            crossorigin="anonymous"
-          />
-          <div>
-            <span>{{ item.goodsDescription }}</span>
-          </div>
-          <div class="mt-2">
-            <span class="Price-text">{{ item.price }}</span>
-            <span class="text-muted-foreground">元</span>
+  <template v-for="(item, index) in saleGoodsList" :key="item.goodsId">
+    <div class="Daily-Rec-Container" v-if="index < 20">
+      <RouterLink :to="`/Good/${item.storeId}/${item.goodsId}`">
+        <div class="flex-col">
+          <div class="Content-Container rounded-lg">
+            <img
+              v-img-lazy="item.goodsPicture"
+              :src="item.goodsPicture"
+              :title="item.goodsDescription"
+              class="img-container rounded-lg"
+              loading="lazy"
+              data-blurhash="LYAeROVqBHtTOco$rpM|ETn#xTa#"
+              crossorigin="anonymous"
+            />
+            <div>
+              <span>{{ item.goodsDescription }}</span>
+            </div>
+            <div class="mt-2">
+              <span class="Price-text">{{ item.price }}</span>
+              <span class="text-muted-foreground">元</span>
+            </div>
           </div>
         </div>
-      </div>
-    </RouterLink>
-  </div>
+      </RouterLink>
+    </div>
+  </template>
 </template>
 
 <script setup>

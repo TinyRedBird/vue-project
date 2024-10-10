@@ -3,7 +3,7 @@ import { ref, computed } from 'vue'
 import { useTokenStore } from '@/stores/token'
 import {
   insertCartService,
-  
+  // changeCartService,
   findNewCartListService,
   delCartService
 } from '@/apis/cart'
@@ -29,22 +29,24 @@ export const useCartStore = defineStore(
     }
 
     const addCart = async (goods) => {
+      console.log("goods",goods)
+      
       let { storeId, goodsId, quantity } = goods
 
       const item = cartList.value.find((item) => goods.goodsId === item.goodsId)
 
       if (isLogin.value) {
-        if (item) {
-          // await changeCartService({ quantity: quantity, id: goodsId })
-          // updateNewList()
-          console.log(goodsId, 'changesucces')
-        } else {
+        // if (item) {
+        //   await changeCartService({ quantity: quantity, id: goodsId })
+        //   updateNewList()
+        //   console.log(goodsId, 'changesucces')
+        // } else {
           try {
             await insertCartService({ storeId, goodsId, quantity })
             updateNewList()
           } catch (error) {
             console.error('添加购物车异常:', error)
-          }
+          // }
         }
       }
       if (item) {

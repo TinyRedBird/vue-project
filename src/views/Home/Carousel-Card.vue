@@ -44,7 +44,7 @@ function stopAutoPlay() {
 }
 const useBanner = async () => {
   const result = await homeBannerService()
-  items.value = result.data
+  items.value = result.data.items
   console.log(result.data)
 }
 

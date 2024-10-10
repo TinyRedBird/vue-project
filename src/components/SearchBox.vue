@@ -3,7 +3,7 @@
   <div class="Search-box-container">
     <!-- 搜索类型选项 -->
     <div data-sg-type="tab">
-      <i class="angle-container" @click="showOptions = true">^</i>
+      <i class="angle-container" @click="showOptions = !showOptions">^</i>
       <ul class="searchsuggesttabs" v-if="showOptions">
         <li
           v-for="type in searchTypes"
@@ -59,7 +59,6 @@ if (!search) {
 let { searchKey, selectedType } = search
 
 const showOptions = ref(false) // 控制选项是否显示
-
 
 const searchTypes = ref(['商品', '店铺'])
 const type = ref('')
@@ -149,27 +148,6 @@ const selectType = (option) => {
   color: #101010;
 }
 
-/*  */
-/*  */
-
-/* [data-sg-type=tab]{
-  display: flex;
-} */
-
-/* [data-sg-type=tab] .searchtabicon {
-    left: 480px;
-    position: absolute;
-    top: 13px;
-    z-index: 99;
-} */
-
-/* [data-sg-type=tab] .searchsuggesttabstab:first-child {
-    color: #11192d;
-    cursor: default;
-    font-weight: 500;
-    pointer-events: none;
-} */
-
 .searchsuggest * {
   -webkit-box-sizing: border-box;
   box-sizing: border-box;
@@ -177,13 +155,16 @@ const selectType = (option) => {
 
 .search-types {
   margin: 0;
-  padding: 10px;
+  /* padding: 10px;
+   */
+  line-height: 35px;
   border: none;
   border-radius: 5px;
   height: 35px;
   text-align: center;
   background-color: #fff;
   cursor: pointer;
+  font-size: 19px;
   &.active {
     background-color: #eee;
     color: #333;

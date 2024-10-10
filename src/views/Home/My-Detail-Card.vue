@@ -17,13 +17,13 @@
       </template>
 
       <!-- 退出登录  -->
-       <div class="sign-Out-Btn">
-         <el-button plain @click="open">退出登录</el-button>
-       </div>
+      <div class="sign-Out-Btn">
+        <el-button plain @click="open">退出登录</el-button>
+      </div>
 
       <div class="Login-btn" @click="pushToOrder">
         <div>
-          <span>我的购物车</span>
+          <el-button plain>购物车</el-button>
         </div>
       </div>
     </div>
@@ -75,7 +75,7 @@ function pushToOrder() {
 </script>
 
 <style scoped>
-.sign-Out-Btn{
+.sign-Out-Btn {
   margin: 0 auto;
   position: relative;
   width: 6rem;
@@ -84,7 +84,8 @@ function pushToOrder() {
 .Login-btn {
   margin: 0 auto;
   position: relative;
-  width: 6rem;
+  font-size: 30px;
+  width: 5rem;
 }
 .Login-btn div span {
   background-color: rgba(245, 236, 227, 0.2);
