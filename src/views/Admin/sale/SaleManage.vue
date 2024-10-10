@@ -1,19 +1,20 @@
 <script setup>
 import { ref } from 'vue';
-// import SaleEditDrawer from './SaleEditDrawer.vue';
-// import SaleAddDrawer from './SaleAddDrawer.vue';
+import SaleEditDrawer from './SaleEditDrawer.vue';
+import SaleAddDrawer from './SaleAddDrawer.vue';
 import { getTypeListService } from '@/apis/adminApis/adminType';
 import { getStoreListService } from '@/apis/adminApis/adminStore'
 import { getSaleListService, delSaleService } from '@/apis/adminApis/adminSale'
 import { ElMessage, ElMessageBox } from 'element-plus';
+//查询
 const query = ref({
     currentPage: 1,
     pageSize: 10,
     key: '',
     typeId: '',
     storeId: '',
-    minPrice: 0.0,
-    maxPrice: 0.0,
+    minPrice: '',
+    maxPrice: '',
     orderBy: '',
     status: ''
 })
@@ -32,26 +33,36 @@ const getTypeList = async () => {
 }
 getTypeList()
 
+//远程搜索商店
 const storeList = ref([])
-const storePageQuery = ref({
+const storeQuery = ref({
     currentPage: 1,
-    pageSize: 10
+    pageSize: 20,
+    key: ''
 })
-const getStoreList = async () => {
-    const res = await getStoreListService(storePageQuery.value)
+const getStoreRemote = async (key) => {
+    storeQuery.value.key = key
+    const res = await getStoreListService(storeQuery.value)
     storeList.value = res.data
 }
-getStoreList()
-// const infiniteLoad = () => {
-//     storePageQuery.value.currentPage++
-//     getStoreList(storePageQuery.value)
-// }
 
+//分页
 const curChange = (current) => {
     query.value.currentPage = current
     getSaleList()
 }
 
+//重置
+const resetForm = () => {
+    for (let key in query.value) {
+        query.value[key] = ''
+    }
+    query.value.currentPage = 1
+    query.value.pageSize = 10
+    getSaleList()
+}
+
+//添加/编辑抽屉
 const editDrawer = ref()
 const openEditDrawer = (row) => {
     editDrawer.value.openDrawer(row)
@@ -59,6 +70,14 @@ const openEditDrawer = (row) => {
 const addDrawer = ref()
 const openAddDrawer = () => {
     addDrawer.value.openDrawer(null)
+}
+
+const refreshPage = () => {
+    let lastPage = Math.ceil(saleList.value.total / saleList.value.pageSize)
+    if (saleList.value.total % saleList.value.pageSize === 0) {
+        lastPage++;
+    }
+    curChange(lastPage)
 }
 
 //删除
@@ -73,7 +92,7 @@ const openDelBox = (row) => {
         }
     )
         .then(async () => {
-            await delSaleService(row.storeId,row.goodsId)
+            await delSaleService(row.storeId, row.goodsId)
             ElMessage.success('删除成功')
         })
         .catch(() => {
@@ -85,17 +104,18 @@ const openDelBox = (row) => {
 <template>
     <page-container :addText="'添加销售商品'" @getList="getSaleList" @reset="resetForm" @add="openAddDrawer">
         <template #queryBar>
-            <el-form :inline="true" class="demo-form-inline">
+            <el-form :inline="true" class="demo-form-inline" label-width="auto" label-position="left">
                 <el-form-item label="商品描述">
                     <el-input v-model="query.key" placeholder="请输入商品描述"></el-input>
                 </el-form-item>
                 <el-form-item label="分类">
-                    <el-select v-model="query.typeId" placeholder="请选择商品分类" clearable filterable>
+                    <el-select v-model="query.typeId" placeholder="请选择商品分类" filterable>
                         <el-option v-for="type in typeList" :key="type.id" :label="type.name" :value="type.id" />
                     </el-select>
                 </el-form-item>
                 <el-form-item label="商店">
-                    <el-select v-model="query.storeId" placeholder="请选择所属商店" clearable filterable>
+                    <el-select v-model="query.storeId" placeholder="请输入商店名" filterable remote
+                        :remote-method="getStoreRemote">
                         <div v-infinite-scroll="infiniteLoad">
                             <el-option v-for="store in storeList.items" :key="store.id" :label="store.name"
                                 :value="store.id" />
@@ -103,9 +123,15 @@ const openDelBox = (row) => {
                     </el-select>
                 </el-form-item>
                 <el-form-item label="价格">
-                    <el-input v-model="query.minPrice" placeholder="￥0.0" class="price" />
+                    <el-input type="number" v-model="query.minPrice" placeholder="￥0.0" class="price" />
                     <div class="center">-</div>
-                    <el-input v-model="query.maxPrice" placeholder="￥0.0" class="price" />
+                    <el-input type="number" v-model="query.maxPrice" placeholder="￥0.0" class="price" />
+                </el-form-item>
+                <el-form-item label="状态">
+                    <el-radio-group v-model="query.status">
+                        <el-radio :value="1">上架</el-radio>
+                        <el-radio :value="2">下架</el-radio>
+                    </el-radio-group>
                 </el-form-item>
             </el-form>
         </template>
@@ -117,8 +143,7 @@ const openDelBox = (row) => {
                         <el-image :src="row.goodsPicture" fit="fill" style="height: 50px" />
                     </template>
                 </el-table-column>
-                <!-- <el-table-column label="商品分类" prop="typeName" /> -->
-                <el-table-column label="价格" prop="price">
+                <el-table-column label="价格" prop="price" sortable>
                     <template #default="{ row }">
                         <el-text>{{ row.price }}元/{{ row.goodsUnit }}</el-text>
                     </template>
@@ -147,7 +172,7 @@ const openDelBox = (row) => {
     </page-container>
 
     <sale-edit-drawer ref="editDrawer" @success="getSaleList"></sale-edit-drawer>
-    <sale-add-drawer ref="addDrawer" @success="getSaleList"></sale-add-drawer>
+    <sale-add-drawer ref="addDrawer" @success="refreshPage"></sale-add-drawer>
 
 </template>
 <style scoped>
@@ -164,6 +189,6 @@ const openDelBox = (row) => {
 }
 
 .demo-form-inline .center {
-    margin: 0 10px;
+    margin: 0 6px;
 }
 </style>
