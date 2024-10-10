@@ -34,7 +34,7 @@ const homeCategoryList = async () => {
   let result = await homeCategoryListService()
   typeList.value = result.data
 }
-// console.log(typeList)
+
 homeCategoryList()
 </script>
 

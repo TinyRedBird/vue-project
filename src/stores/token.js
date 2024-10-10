@@ -9,14 +9,14 @@ export const useTokenStore = defineStore(
 
     const setToken = (newToken) => {
       token.value = newToken
-      /////////////////////////////
-      localStorage.setItem('token', newToken)
+
+      // localStorage.setItem('token', newToken)
     }
 
     const removeToken = () => {
       token.value = ''
-      //////////////////
-      localStorage.removeItem('token')
+
+      // localStorage.removeItem('token')
     }
     const initToken = () => {
       const storedToken = localStorage.getItem('token')

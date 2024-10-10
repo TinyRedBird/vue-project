@@ -17,6 +17,10 @@ const routes = [
   //path和component对应关系的位置
   {
     path: '/',
+    redirect: '/Login'
+  },
+  {
+    path: '/Home',
     name: 'Home',
     component: Home
   },

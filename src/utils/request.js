@@ -1,6 +1,6 @@
 import axios from 'axios'
 import { useTokenStore } from '@/stores/token'
-
+import { ElMessage } from 'element-plus'
 /*request*/
 const service = axios.create({
   baseURL: 'api',
@@ -27,7 +27,8 @@ service.interceptors.response.use(
     if (result.data.code === 0) {
       return result.data
     } else {
-      alert(result.data.msg ? result.data.msg : '服务器异常')
+      ElMessage(result.data.msg ? result.data.msg : '服务器异常')
+      // alert(result.data.msg ? result.data.msg : '服务器异常')
       return Promise.reject(new Error(result.data.msg))
     }
 
@@ -36,7 +37,7 @@ service.interceptors.response.use(
     // return Promise.reject(result.data)
   },
   (err) => {
-    alert('网络异常，请检查您的网络连接')
+    ElMessage('网络异常，请检查您的网络连接')
     return Promise.reject(err)
   }
 )

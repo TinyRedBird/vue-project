@@ -1,6 +1,6 @@
 <template>
   <div class="Home-container">
-    <bread></bread>
+
     <SearchBox @search="handleSearch"></SearchBox>
 
     <div class="Outer screenOuter">
@@ -21,7 +21,7 @@
 </template>
 
 <script setup>
-import bread from '@/components/BreadCrumb.vue'
+
 import Carousel from './Carousel-Card.vue'
 import CaregoryBox from './CaregoryBox.vue'
 import SearchBox from '@/components/SearchBox.vue'

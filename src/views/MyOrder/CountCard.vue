@@ -23,6 +23,7 @@ import { useCartStore } from '@/stores/cartStore'
 
 const cartStore = useCartStore()
 const allCheck = (selected) => {
+  console.log(selected,"selected");
   cartStore.allCheck(selected)
 }
 </script>

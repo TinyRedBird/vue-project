@@ -48,20 +48,18 @@
 <script setup>
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
-//
-const router = useRouter()
 import { inject } from 'vue'
+const router = useRouter()
 
-//
 const search = inject('searchContext')
 console.log('Injected search:', search)
 if (!search) {
   throw new Error('searchContext is not provided')
 }
 let { searchKey, selectedType } = search
-// console.log(searchKey, 123456789, selectedType)
+
 const showOptions = ref(false) // 控制选项是否显示
-// const selectedType = ref('商品') // 默认选中商品
+
 
 const searchTypes = ref(['商品', '店铺'])
 const type = ref('')

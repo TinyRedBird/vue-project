@@ -53,7 +53,7 @@ const login = async () => {
   let result = await userLoginService(LoginData.value)
   tokenStore.setToken(result.data)
   //跳转到首页
-  router.push('/')
+  router.push('/Home')
 }
 
 </script>

@@ -1,5 +1,5 @@
 <template>
-  <el-card class="Order-Container" v-for="item in cartStore.cartList.items" :key="item.goodsId">
+  <el-card class="Order-Container" v-for="item in cartStore.cartList" :key="item.goodsId">
     <template #header>
       <div class="card-header">
         <el-checkbox
@@ -36,7 +36,7 @@ import { useCartStore } from '@/stores/cartStore'
 import { watch } from 'vue'
 
 const cartStore = useCartStore()
-const items = cartStore.cartList.items
+const items = cartStore.cartList
 
 watch(
   items,
@@ -54,6 +54,8 @@ watch(
 )
 
 const singleCheck = (item, selected) => {
+  console.log(item, selected,"item, selected");
+  
   cartStore.singleCheck(item, selected)
 }
 </script>

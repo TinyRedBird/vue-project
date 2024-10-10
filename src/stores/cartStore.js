@@ -3,7 +3,7 @@ import { ref, computed } from 'vue'
 import { useTokenStore } from '@/stores/token'
 import {
   insertCartService,
-  changeCartService,
+  
   findNewCartListService,
   delCartService
 } from '@/apis/cart'
@@ -31,7 +31,7 @@ export const useCartStore = defineStore(
     const addCart = async (goods) => {
       let { storeId, goodsId, quantity } = goods
 
-      const item = cartList.value.items.find((item) => goods.goodsId === item.goodsId)
+      const item = cartList.value.find((item) => goods.goodsId === item.goodsId)
 
       if (isLogin.value) {
         if (item) {
@@ -50,12 +50,12 @@ export const useCartStore = defineStore(
       if (item) {
         item.quantity += goods.quantity
       } else {
-        cartList.value.items.push(goods)
+        cartList.value.push(goods)
       }
     }
 
     const singleCheck = (goods, selected) => {
-      const item = cartList.value.items.find((item) => goods.goodsId === item.goodsId)
+      const item = cartList.value.find((item) => goods.goodsId === item.goodsId)
 
       if (item) {
         item.selected = selected
@@ -75,44 +75,44 @@ export const useCartStore = defineStore(
         //思路
         //1.找到要删除项的下标值
         //2.使用数组的过滤方法
-        const index = cartList.value.items.findIndex((item) => goodsId === item.goodsId)
+        const index = cartList.value.findIndex((item) => goodsId === item.goodsId)
         if (index !== -1) {
           cartList.value.items.splice(index, 1)
         }
       }
     }
 
-    const allCount = computed(() => cartList.value.items.reduce((a, c) => a + c.quantity, 0))
+    const allCount = computed(() => cartList.value.reduce((a, c) => a + c.quantity, 0))
     // console.log('allCount', allCount)
 
     const allPrice = computed(() =>
-      cartList.value.items.reduce((a, c) => a + c.quantity * c.goodsPrice, 0)
+      cartList.value.reduce((a, c) => a + c.quantity * c.goodsPrice, 0)
     )
     //全选
     // console.log('allPrice', allPrice)
 
-    const isAll = computed(() => cartList.value.items.every((item) => item.selected))
+    const isAll = computed(() => cartList.value.every((item) => item.selected))
 
     const allCheck = (selected) => {
-      cartList.value.items.forEach((item) => (item.selected = selected))
+      cartList.value.forEach((item) => (item.selected = selected))
     }
     // 全选删除
     const clearSelected = () => {
-      cartList.value.items = cartList.value.items.filter((item) => !item.selected)
+      cartList.value.items = cartList.value.filter((item) => !item.selected)
     }
 
     const selectedCount = computed(() =>
-      cartList.value.items.filter((item) => item.selected).reduce((a, c) => a + c.quantity, 0)
+      cartList.value.filter((item) => item.selected).reduce((a, c) => a + c.quantity, 0)
     )
 
     const selectedPrice = computed(() =>
-      cartList.value.items
+      cartList.value
         .filter((item) => item.selected)
         .reduce((a, c) => a + c.quantity * c.goodsPrice, 0)
     )
 
     const selectedItems = computed(() => {
-      return cartList.value.items.filter((item) => item.selected)
+      return cartList.value.filter((item) => item.selected)
     })
     return {
       cartList,

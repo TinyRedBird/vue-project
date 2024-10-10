@@ -2,7 +2,6 @@
 import request from '@/utils/request'
 
 export const userRegisterService = (registerData) => {
-  // console.log('userRegisterService', registerData)
   return request.post('/user/register', registerData)
 }
 
@@ -11,7 +10,6 @@ export const userLoginService = (loginData) => {
   for (let key in loginData) {
     params.append(key, loginData[key])
   }
-  // console.log('login', params)
   return request.post('/user/login', params)
 }
 

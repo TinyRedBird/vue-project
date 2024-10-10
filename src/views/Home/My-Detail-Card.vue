@@ -17,17 +17,9 @@
       </template>
 
       <!-- 退出登录  -->
-      <el-button plain @click="centerDialogVisible = true"> 退出登录 </el-button>
-
-      <el-dialog v-model="centerDialogVisible" title="" width="500" center>
-        <span> 你确定要退出登录？ </span>
-        <template #footer>
-          <div class="dialog-footer">
-            <el-button @click="centerDialogVisible = false">取消</el-button>
-            <el-button type="primary" @click="centerDialogVisible = false"> 确定 </el-button>
-          </div>
-        </template>
-      </el-dialog>
+       <div class="sign-Out-Btn">
+         <el-button plain @click="open">退出登录</el-button>
+       </div>
 
       <div class="Login-btn" @click="pushToOrder">
         <div>
@@ -41,14 +33,33 @@
 <script setup>
 import { useRouter } from 'vue-router'
 import useUserInfoStore from '@/apis/userInfo'
+import { useTokenStore } from '@/stores/token'
 import { userInfoService } from '@/apis/user'
 import { ref } from 'vue'
 const userInfoStore = useUserInfoStore()
+const tokenStore = useTokenStore()
 const router = useRouter()
-const centerDialogVisible = ref(false)
-const confirm = () => {
-  // userInfoStore.removeInfo()
+import { ElMessage, ElMessageBox } from 'element-plus'
+
+const open = () => {
+  ElMessageBox.confirm('你确定要退出登陆吗？', '', {
+    confirmButtonText: '确定',
+    cancelButtonText: '取消',
+    type: 'warning'
+  })
+    .then(() => {
+      userInfoStore.removeInfo()
+      tokenStore.removeToken()
+      ElMessage({
+        type: 'success',
+        message: '退出成功'
+      })
+      router.push('/')
+    })
+    .catch(() => {})
 }
+// const confirm = () => {
+// }
 let result = ref(null)
 const getUserInfo = async () => {
   result.value = await userInfoService()
@@ -64,6 +75,12 @@ function pushToOrder() {
 </script>
 
 <style scoped>
+.sign-Out-Btn{
+  margin: 0 auto;
+  position: relative;
+  width: 6rem;
+}
+
 .Login-btn {
   margin: 0 auto;
   position: relative;
