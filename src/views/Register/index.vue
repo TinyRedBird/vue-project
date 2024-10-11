@@ -47,12 +47,32 @@ const LoginData = ref({
   password: ''
 })
 
+import { userInfoService } from '@/apis/user';
+import useUserInfoStore from '@/apis/userInfo';
+const userInfoStore=useUserInfoStore()
+
 const login = async () => {
   let result = await userLoginService(LoginData.value)
   tokenStore.setToken(result.data)
-  //跳转到首页
-  router.push('/Home')
+  const res=await userInfoService()
+  userInfoStore.setInfo(res.data)
+  //跳转
+  if(userInfoStore.info.role===1){
+    router.push('/admin')
+  }else{
+    router.push('/Home')
+  }
 }
+
+
+// const userInfoStore=useUserInfoStore()
+// let result = ref(null)
+// const getUserInfo = async () => {
+//   result.value = await userInfoService()
+//   userInfoStore.setInfo(result.value.data)
+//   console.log(result.value.data)
+// }
+
 </script>
 
 <style>

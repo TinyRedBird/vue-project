@@ -1,8 +1,25 @@
 <script setup>
 import zhCn from "element-plus/es/locale/lang/zh-cn"
-import { UserFilled, Shop, GoodsFilled, Menu, Sell, Setting } from "@element-plus/icons-vue"
+import { UserFilled, Shop, GoodsFilled, Menu, Sell, Setting, Upload } from "@element-plus/icons-vue"
 import useUserInfoStore from "@/apis/userInfo";
+import { ElMessageBox } from "element-plus";
+import router from "@/router";
+import { useTokenStore } from "@/stores/token";
 const userInfoStore = useUserInfoStore()
+const tokenStore = useTokenStore()
+const logout = () => {
+    ElMessageBox.confirm('确定要退出登陆吗？', '', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+    })
+        .then(() => {
+            userInfoStore.removeInfo()
+            tokenStore.removeToken()
+            router.push('/')
+        })
+        .catch(() => { })
+}
 </script>
 
 <template>
@@ -11,46 +28,54 @@ const userInfoStore = useUserInfoStore()
         <el-container>
             <el-aside>
                 <el-menu :default-active="$route.path" router background-color="#444A5A" text-color="white">
-                    <div class="adminInfo">
-                        <el-avatar :icon="UserFilled" v-if="userInfoStore.info.avatar == null" />
-                        <el-image :src="userInfo.avatar" v-else></el-image>
-                        <span class="adminUsername">{{ userInfoStore.info.username }}</span>
+                    <div>
+                        <div class="adminInfo">
+                            <el-avatar :icon="UserFilled" v-if="userInfoStore.info.avatar == null" />
+                            <el-image :src="userInfo.avatar" v-else></el-image>
+                            <span class="adminUsername">{{ userInfoStore.info.username }}</span>
+                        </div>
+                        <el-menu-item index="/admin/user">
+                            <el-icon>
+                                <UserFilled />
+                            </el-icon>
+                            <span>用户管理</span>
+                        </el-menu-item>
+                        <el-menu-item index="/admin/store">
+                            <el-icon>
+                                <Shop />
+                            </el-icon>
+                            <span>商店管理</span>
+                        </el-menu-item>
+                        <el-menu-item index="/admin/goods">
+                            <el-icon>
+                                <GoodsFilled />
+                            </el-icon>
+                            <span>商品管理</span>
+                        </el-menu-item>
+                        <el-menu-item index="/admin/type">
+                            <el-icon>
+                                <Menu />
+                            </el-icon>
+                            <span>商品分类管理</span>
+                        </el-menu-item>
+                        <el-menu-item index="/admin/sale">
+                            <el-icon>
+                                <Sell />
+                            </el-icon>
+                            <span>销售商品管理</span>
+                        </el-menu-item>
+                        <el-menu-item index="/admin/setting">
+                            <el-icon>
+                                <Setting />
+                            </el-icon>
+                            <span>系统设置</span>
+                        </el-menu-item>
                     </div>
-                    <el-menu-item index="/admin/user">
-                        <el-icon>
-                            <UserFilled />
+                    <el-menu-item @click="logout" class="logout">
+                        <el-icon class="logoutBtn">
+                            <Upload />
                         </el-icon>
-                        <span>用户管理</span>
-                    </el-menu-item>
-                    <el-menu-item index="/admin/store">
-                        <el-icon>
-                            <Shop />
-                        </el-icon>
-                        <span>商店管理</span>
-                    </el-menu-item>
-                    <el-menu-item index="/admin/goods">
-                        <el-icon>
-                            <GoodsFilled />
-                        </el-icon>
-                        <span>商品管理</span>
-                    </el-menu-item>
-                    <el-menu-item index="/admin/type">
-                        <el-icon>
-                            <Menu />
-                        </el-icon>
-                        <span>商品分类管理</span>
-                    </el-menu-item>
-                    <el-menu-item index="/admin/sale">
-                        <el-icon>
-                            <Sell />
-                        </el-icon>
-                        <span>销售商品管理</span>
-                    </el-menu-item>
-                    <el-menu-item index="/admin/setting">
-                        <el-icon>
-                            <Setting />
-                        </el-icon>
-                        <span>系统设置</span>
+                        <span>退出登录</span>
                     </el-menu-item>
                 </el-menu>
             </el-aside>
@@ -74,6 +99,9 @@ const userInfoStore = useUserInfoStore()
 .el-menu,
 .el-main {
     height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
 }
 
 .adminInfo {
@@ -87,5 +115,9 @@ const userInfoStore = useUserInfoStore()
 .adminUsername {
     margin-top: 10px;
     color: white;
+}
+
+.logoutBtn {
+    transform: rotate(90deg);
 }
 </style>

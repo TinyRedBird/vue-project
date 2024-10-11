@@ -22,7 +22,8 @@ const routes = [
   {
     path: '/Home',
     name: 'Home',
-    component: Home
+    component: Home,
+    meta:{ requiresAuth:true,role:2 }
   },
   {
     path: '/Login',
@@ -37,32 +38,38 @@ const routes = [
   {
     path: '/Good/:storeId/:goodsId',
     name: 'Good',
-    component: Good
+    component: Good,
+    meta:{ requiresAuth:true,role:2 }
   },
   {
     path: '/Shop/:storeId/:typeId',
     name: 'Shop',
-    component: Shop
+    component: Shop,
+    meta:{ requiresAuth:true,role:2 }
   },
   {
     path: '/SearchGood/:keyWord',
     name: 'SearchGood',
-    component: SearchGood
+    component: SearchGood,
+    meta:{ requiresAuth:true,role:2 }
   },
   {
     path: '/SearchShop/:keyWord',
     name: 'SearchShop',
-    component: SearchShop
+    component: SearchShop,
+    meta:{ requiresAuth:true,role:2 }
   },
   {
     path: '/MyOrder',
     name: 'MyOrder',
-    component: MyOrder
+    component: MyOrder,
+    meta:{ requiresAuth:true,role:2 }
   },
   {
     path: '/admin',
     component: AdminLayout,
     redirect: '/admin/sale',
+    meta:{ requiresAuth:true,role:1 },
     children: [
       { path: '/admin/sale', component: () => import('../views/Admin/sale/SaleManage.vue') },
       { path: '/admin/goods', component: () => import('../views/Admin/goods/GoodsManage.vue') },
@@ -71,12 +78,31 @@ const routes = [
       { path: '/admin/type', component: () => import('../views/Admin/type/TypeManage.vue') },
       { path: '/admin/setting', component: () => import('../views/Admin/setting/BannerManage.vue') }
     ]
-  }
+  },
+  {
+    path:'/:catchAll(.*)',component:()=>import('../views/NotFound.vue'),
+  },
 ]
 
 const router = createRouter({
   history: createWebHashHistory(),
   routes
+})
+
+import { useTokenStore } from '@/stores/token'
+import useUserInfoStore from '@/apis/userInfo'
+//路由守卫
+router.beforeEach((to,from,next)=>{
+  const tokenStore=useTokenStore()
+  const userInfoStore=useUserInfoStore()
+  console.log(to,from)
+  if(to.meta.requiresAuth&&!tokenStore.token){
+    next({path:'/'}) //需要登录但没登陆,跳转到登录
+  }else if(to.meta.role&&to.meta.role!=userInfoStore.info.role){
+    next({path:'/404'}) //需要权限但权限不符
+  }else{
+    next()
+  }
 })
 
 export default router
