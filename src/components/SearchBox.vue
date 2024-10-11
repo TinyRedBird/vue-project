@@ -32,6 +32,7 @@
           name="search"
           class="search"
           autocomplete="off"
+          @keyup.enter="performSearch"
         />
       </div>
       <input
@@ -69,6 +70,7 @@ const performSearch = () => {
     alert('请输入搜索内容')
     return
   }
+  search.searchKey = searchKey
   // 根据选中的类型进行搜索
   if (selectedType === '商品') {
     router.push({ name: 'SearchGood', params: { keyWord: searchKey } })
@@ -76,14 +78,6 @@ const performSearch = () => {
     router.push({ name: 'SearchShop', params: { keyWord: searchKey } })
   }
 }
-// function selectType(type) {
-//   selectedType = type
-// }
-
-// // 隐藏选项列表
-// const hideOptions = () => {
-//   showOptions.value = false
-// }
 
 // 选择一个选项，并更新输入框的值
 const selectType = (option) => {

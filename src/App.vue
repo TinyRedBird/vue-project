@@ -1,19 +1,17 @@
 <template>
   <!-- 一级路由出口组件 -->
   <div id="app">
-    <div class="background">
-    </div>
-    <div>
-      <!-- <Bread></Bread> -->
-    </div>
+    <div class="background"></div>
+
+    <!-- <div><Nav></Nav></div> -->
   </div>
-  
+
   <router-view></router-view>
 </template>
 
 <script setup>
 import { provide } from 'vue'
-// import Bread from '@/components/BreadCrumb.vue'
+// import Nav  from './components/nav.vue';
 import { searchContext } from '@/stores/search-context'
 
 // 提供 searchContext

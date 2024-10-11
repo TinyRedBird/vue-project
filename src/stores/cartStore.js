@@ -14,23 +14,23 @@ export const useCartStore = defineStore(
     const userStore = useTokenStore()
     const cartList = ref([])
 
-    const isLogin = computed(() => userStore.token)
-    // const isLogin = computed(() => !!userStore.token)
+    // const isLogin = computed(() => userStore.token)
+    const isLogin = computed(() => !!userStore.token)
     //获取最新购物车列表
     const updateNewList = async () => {
       // console.log('cartList', cartList)
       const result = await findNewCartListService({ currentPage: 1, pageSize: 30 })
-      cartList.value.items = result.data.items
+      cartList.value = result.data.items
       if (result.code === 0 && result.msg === '操作成功') {
-        cartList.value.items = result.data.items
+        cartList.value = result.data.items
       } else {
         console.error('获取购物车列表失败:', result.msg)
       }
     }
 
     const addCart = async (goods) => {
-      console.log("goods",goods)
-      
+      console.log('goods', goods)
+
       let { storeId, goodsId, quantity } = goods
 
       const item = cartList.value.find((item) => goods.goodsId === item.goodsId)
@@ -41,16 +41,16 @@ export const useCartStore = defineStore(
         //   updateNewList()
         //   console.log(goodsId, 'changesucces')
         // } else {
-          try {
-            await insertCartService({ storeId, goodsId, quantity })
-            updateNewList()
-          } catch (error) {
-            console.error('添加购物车异常:', error)
-          // }
+        try {
+          await insertCartService({ storeId, goodsId, quantity })
+          updateNewList()
+        } catch (error) {
+          console.error('添加购物车异常:', error)
         }
+        // }
       }
       if (item) {
-        item.quantity += goods.quantity
+        item.quantity = goods.quantity
       } else {
         cartList.value.push(goods)
       }
@@ -99,8 +99,17 @@ export const useCartStore = defineStore(
       cartList.value.forEach((item) => (item.selected = selected))
     }
     // 全选删除
-    const clearSelected = () => {
-      cartList.value.items = cartList.value.filter((item) => !item.selected)
+    const clearSelected = async () => {
+      const selectedIds = cartList.value.filter((item) => item.selected).map((item) => item.id)
+      for (const id of selectedIds) {
+        await delCartService(id)
+      }
+      cartList.value = cartList.value.filter((item) => !item.selected)
+      // await delCartService(goodsId)
+      // cartList.value = cartList.value.filter((item) => !item.selected)
+
+      // 最后，更新新的列表（可能是刷新UI）
+      updateNewList()
     }
 
     const selectedCount = computed(() =>

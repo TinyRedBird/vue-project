@@ -65,16 +65,16 @@ const getStoreById = async () => {
     }
     const goodsResult = await getStoreSaleService(item.id, params)
     item.goods = goodsResult.data.items
-
   })
 }
 
 watch(
   () => route.params.keyWord,
-  async (newKeyWord) => {
-    if (newKeyWord) {
-      search.searchKey = newKeyWord
+  async () => {
+    if (search.selectedType==='店铺') {
+      // search.searchKey = route.params.keyWord
       getStoreById()
+      // console.log(newKeyWord);
     }
   },
   { immediate: true }

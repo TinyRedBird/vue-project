@@ -16,7 +16,7 @@
     </div>
   </div>
 </template> -->
-
+<!-- 
 <script setup>
 import { useRoute } from 'vue-router'
 import { ref } from 'vue'
@@ -39,9 +39,9 @@ const getStoreSale = async () => {
 // console.log(store)
 
 getStoreSale()
-</script>
+</script> -->
 
-<style scoped>
+<!-- <style scoped>
 
 .Pic-Container{
   width: 250px;
@@ -59,4 +59,4 @@ getStoreSale()
   transition: all 0.5s;
   width: 250px;
 }
-</style>
+</style>  -->

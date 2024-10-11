@@ -37,8 +37,8 @@
         </div>
 
         <!-- 内容框 -->
-        <SearchCard ></SearchCard>
-        <el-empty :image-size="300"  />
+        <SearchCard></SearchCard>
+        <el-empty :image-size="200" />
       </div>
     </div>
   </div>

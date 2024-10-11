@@ -10,11 +10,13 @@
           <el-button class="OrderBtn" @click="cartStore.clearSelected">删除</el-button>
         </div>
       </div>
-      <div class="CountWarp">
+      <div class="CountWarp" v-if="cartStore.allCount">
         <OrderCard></OrderCard>
       </div>
+      <el-empty :image-size="400" v-else />
     </div>
   </div>
+
 </template>
 
 <script setup>
@@ -23,7 +25,7 @@ import { useCartStore } from '@/stores/cartStore'
 
 const cartStore = useCartStore()
 const allCheck = (selected) => {
-  console.log(selected,"selected");
+  console.log(selected, 'selected')
   cartStore.allCheck(selected)
 }
 </script>

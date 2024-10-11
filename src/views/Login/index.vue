@@ -90,18 +90,14 @@ const sendmsg = () => {
   }, 1000)
 }
 const register = async () => {
-  const result = await userRegisterService({
+  await userRegisterService({
     email: ResisterData.value.email,
     username: ResisterData.value.username,
     password: ResisterData.value.password,
     verifyCode: ResisterData.value.verifyCode
   })
-  if (result.code == 0) {
-    router.push('/Login')
-  } else {
-    ElMessage('注册邮箱失败')
-  }
 
+  router.push('/Login')
 }
 </script>
 

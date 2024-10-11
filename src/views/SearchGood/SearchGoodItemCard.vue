@@ -1,6 +1,6 @@
 <template>
-  <div class="Daily-Rec-Container" v-for="item in productList" :key="item.goodsId" >
-    <RouterLink :to="`/Good/${item.storeId}/${item.goodsId}`" >
+  <div class="Daily-Rec-Container" v-for="item in productList" :key="item.goodsId">
+    <RouterLink :to="`/Good/${item.storeId}/${item.goodsId}`">
       <div class="flex-col">
         <div class="Content-Container">
           <img
@@ -45,15 +45,16 @@ const fetchStoreList = async () => {
 
 watch(
   () => route.params.keyWord,
-  async (newKeyWord) => {
-    if (newKeyWord) {
-      search.searchKey = newKeyWord
+  async () => {
+    if (search.selectedType === '商品') {
+      console.log(search.searchKey)
+      // search.searchKey = route.params.keyWord
+
       fetchStoreList()
     }
   },
   { immediate: true }
 )
-
 </script>
 <style scoped>
 .Daily-Rec-Container {

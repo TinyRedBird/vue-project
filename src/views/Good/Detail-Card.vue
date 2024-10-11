@@ -54,20 +54,7 @@
                   <div>
                     <span class="countText">数量：</span>
                     <div class="countWrapper">
-                      <!-- <div class="quantityBtn minusBtn disabled">
-                        <span class="quantityBtnTextForPC">-</span>
-                      </div>
-                      <div class="countValueWrapper">
-                        <input
-                          class="countValueForPC"
-                          height="0"
-                          autocomplete="false"
-                          :value="count"
-                        />
-                      </div>
-                      <div class="quantityBtn addBtn">
-                        <span class="quantityBtnTextForPC">+</span>
-                      </div> -->
+                     
                       <el-input-number
                         v-model="quantity"
                         :min="1"
@@ -128,8 +115,7 @@ const addCart = () => {
     storeId: product.value.storeId,
     storeLogo: product.value.storeLogo,
     storeName: product.value.storeName
-    // goodsUnit: product.value.goodsUnit,
-    // stock: product.value.stock,
+
   })
 }
 

@@ -1,6 +1,5 @@
 <template>
   <div class="Home-container">
-
     <SearchBox @search="handleSearch"></SearchBox>
 
     <div class="Outer screenOuter">
@@ -21,7 +20,7 @@
 </template>
 
 <script setup>
-
+// import Nav from '@/components/nav.vue'
 import Carousel from './Carousel-Card.vue'
 import CaregoryBox from './CaregoryBox.vue'
 import SearchBox from '@/components/SearchBox.vue'
@@ -36,6 +35,10 @@ function handleSearch(query) {
 <style>
 .Home-container {
   margin: 0 auto;
+}
+.nav-container {
+  position: relative;
+  display: inline-block;
 }
 * {
   box-sizing: border-box;

@@ -16,7 +16,7 @@
 <script setup>
 import { ref, onMounted, computed, onBeforeUnmount } from 'vue'
 import { homeBannerService } from '@/apis/home'
-const items = ref({})
+const items = ref([])
 const currentIndex = ref(0)
 const intervalId = ref(null)
 
@@ -44,7 +44,7 @@ function stopAutoPlay() {
 }
 const useBanner = async () => {
   const result = await homeBannerService()
-  items.value = result.data.items
+  items.value = result.data
   console.log(result.data)
 }
 

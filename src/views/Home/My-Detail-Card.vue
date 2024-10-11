@@ -58,8 +58,7 @@ const open = () => {
     })
     .catch(() => {})
 }
-// const confirm = () => {
-// }
+
 let result = ref(null)
 const getUserInfo = async () => {
   result.value = await userInfoService()

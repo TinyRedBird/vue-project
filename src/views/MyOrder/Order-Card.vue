@@ -37,19 +37,32 @@ import { useCartStore } from '@/stores/cartStore'
 import { watch } from 'vue'
 
 const cartStore = useCartStore()
-const items = cartStore.cartList
-console.log(items)
+const items = cartStore.cartList.items
 
 watch(
   items,
-  (newItems, oldItems) => {
-    console.log('watchitem'.newItems)
-    // 这里可以调用更新购物车信息的方法
-    console.log(`商品ID: ${newItems.goodsId}, 新的数量: ${newItems.quantity}`)
-    cartStore.addCart(newItems)
+  (newItems) => {
+    newItems.forEach((item) => {
+      console.log(newItems)
+
+      // 这里可以调用更新购物车信息的方法
+      console.log(`商品ID: ${item.goodsId}, 新的数量: ${item.quantity}`)
+      cartStore.addCart({
+        goodsDescription: item.goodsDescription,
+        goodsId: item.goodsId,
+        goodsPicture: item.goodsPicture,
+        goodsPrice: item.goodsPrice,
+        id: item.goodsId,
+        quantity: item.quantity,
+        selected: true,
+        storeId: item.storeId,
+        storeLogo: item.storeLogo,
+        storeName: item.storeName
+      })
+    })
   },
   {
-    // deep: true // 深度监听，因为变化发生在数组内部的对象上
+    deep: true // 深度监听，因为变化发生在数组内部的对象上
   }
 )
 
