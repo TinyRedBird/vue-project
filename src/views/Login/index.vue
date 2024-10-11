@@ -101,7 +101,6 @@ const register = async () => {
 }
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
 .login-container {
   margin: 0 auto;

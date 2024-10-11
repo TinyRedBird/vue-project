@@ -22,11 +22,11 @@
           autocomplete="off"
         />
 
-        <p @click="router.push('/Resister')">
+        <p @click="router.push('/Register')">
           没有有账号？<span class="gotoResister">点击注册</span>
         </p>
         <input type="submit" class="RegisterBtn" @click.prevent="login" value="登录" />
-        <!-- <Vcode :show="isShow" @success="onSuccess" @close="onClose" /> -->
+
         <p><span>忘记密码</span></p>
       </div>
     </form>
@@ -35,13 +35,11 @@
 
 <script setup>
 import { ref } from 'vue'
-// import Vcode from 'vue3-puzzle-vcode'
 import { userLoginService } from '@/apis/user'
 import { useRouter } from 'vue-router'
 import { useTokenStore } from '@/stores/token'
 
 const tokenStore = useTokenStore()
-
 const router = useRouter()
 
 const LoginData = ref({
@@ -55,7 +53,6 @@ const login = async () => {
   //跳转到首页
   router.push('/Home')
 }
-
 </script>
 
 <style>
