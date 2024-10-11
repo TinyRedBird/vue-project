@@ -34,8 +34,8 @@
 import { useRouter } from 'vue-router'
 import useUserInfoStore from '@/apis/userInfo'
 import { useTokenStore } from '@/stores/token'
-// import { userInfoService } from '@/apis/user'
-// import { ref } from 'vue'
+import { userInfoService } from '@/apis/user'
+import { ref } from 'vue'
 const userInfoStore = useUserInfoStore()
 const tokenStore = useTokenStore()
 const router = useRouter()
@@ -58,7 +58,6 @@ const open = () => {
     })
     .catch(() => {})
 }
-<<<<<<< HEAD
 
 let result = ref(null)
 const getUserInfo = async () => {
@@ -67,7 +66,6 @@ const getUserInfo = async () => {
   console.log(result.value.data)
 }
 getUserInfo()
-=======
 // const confirm = () => {
 // }
 // let result = ref(null)
@@ -77,7 +75,6 @@ getUserInfo()
 //   console.log(result.value.data)
 // }
 // getUserInfo()
->>>>>>> 7e1cbe18fa36a34755dc10b4038f5285faca4b80
 
 //
 function pushToOrder() {
