@@ -12,7 +12,8 @@
             crossorigin="anonymous"
           />
           <div>
-            <span>{{ item.goodsDescription }}</span>
+            <span>{{ item.goodsDescription }}</span><br>
+            <span>{{ item.storeName }}</span>
           </div>
           <div class="mt-2">
             <span class="text-lg font-bold Price-text">{{ item.price }}</span>

@@ -1,4 +1,4 @@
-<!-- <template>
+<template>
   <div>
     <div class="Warp">
       <div class="TopWarp">
@@ -91,12 +91,12 @@ const AllCheck = (selected) => {
   /* top: 4rem; */
   margin: 20px auto;
 }
-</style> -->
-<template>
+</style>
+<!-- <template>
   <div class="Warp">
     <div class="TopWarp">
       <div class="OrderCheckBox">
-        <el-checkbox size="large" v-model="cartStore.isAll" @change="AllCheck" />
+        <el-checkbox size="large" v-model="cartStore.isAll" @change="allCheck" />
       </div>
       <div class="Order-Contaner">
         <el-button class="OrderBtn" @click="cartStore.clearSelected">删除</el-button>
@@ -114,7 +114,7 @@ import OrderCard from './Order-Card.vue'
 import { useCartStore } from '@/stores/cartStore'
 
 const { isAll, allCheck, clearSelected } = useCartStore()
-const AllCheck = (selected) => {
+const allCheck = (selected) => {
   console.log(selected, 'selected')
   allCheck(selected)
 }
@@ -179,4 +179,4 @@ const AllCheck = (selected) => {
 .CountWarp {
   margin: 20px auto;
 }
-</style>
+</style> -->
