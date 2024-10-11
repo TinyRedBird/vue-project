@@ -57,7 +57,6 @@ const refreshPage = (isEdit) => {
         }
         curChange(lastPage)
     } else {
-        console.log(1111,isEdit)
         getGoodsList()
     }
 }
