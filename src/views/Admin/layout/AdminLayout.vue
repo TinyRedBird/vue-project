@@ -2,7 +2,24 @@
 import zhCn from "element-plus/es/locale/lang/zh-cn"
 import { UserFilled, Shop, GoodsFilled, Menu, Sell, Setting } from "@element-plus/icons-vue"
 import useUserInfoStore from "@/apis/userInfo";
+import { ElMessageBox } from "element-plus";
+import router from "@/router";
+import { useTokenStore } from "@/stores/token";
 const userInfoStore = useUserInfoStore()
+const tokenStore = useTokenStore()
+const logout = () => {
+    ElMessageBox.confirm('确定要退出登陆吗？', '', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+    })
+        .then(() => {
+            userInfoStore.removeInfo()
+            tokenStore.removeToken()
+            router.push('/')
+        })
+        .catch(() => { })
+}
 </script>
 
 <template>
@@ -51,6 +68,12 @@ const userInfoStore = useUserInfoStore()
                             <Setting />
                         </el-icon>
                         <span>系统设置</span>
+                    </el-menu-item>
+                    <el-menu-item @click="logout">
+                        <el-icon>
+                            <Setting />
+                        </el-icon>
+                        <span>退出登录</span>
                     </el-menu-item>
                 </el-menu>
             </el-aside>
