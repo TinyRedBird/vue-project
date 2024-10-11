@@ -13,9 +13,9 @@ const query = ref({
     key: '',
     typeId: '',
     storeId: '',
-    minPrice: '',
-    maxPrice: '',
-    orderBy: '',
+    minPrice: null,
+    maxPrice: null,
+    sort: null,
     status: ''
 })
 
@@ -26,12 +26,26 @@ const getSaleList = async () => {
 }
 getSaleList()
 
+const sortPrice=(column)=>{
+    console.log(column)
+    if(column.order==='ascending'){
+        query.value.sort=1
+    }else if(column.order=='descending'){
+        query.value.sort=2
+    }else{
+        query.value.sort=null
+    }
+    getSaleList()
+}
+
 const typeList = ref([])
 const getTypeList = async () => {
     const res = await getTypeListService()
     typeList.value = res.data
 }
 getTypeList()
+
+
 
 //远程搜索商店
 const storeList = ref([])
@@ -59,6 +73,8 @@ const resetForm = () => {
     }
     query.value.currentPage = 1
     query.value.pageSize = 10
+    query.value.minPrice=null
+    query.value.maxPrice=null
     getSaleList()
 }
 
@@ -72,13 +88,13 @@ const openAddDrawer = () => {
     addDrawer.value.openDrawer(null)
 }
 
-const refreshPage = () => {
-    let lastPage = Math.ceil(saleList.value.total / saleList.value.pageSize)
-    if (saleList.value.total % saleList.value.pageSize === 0) {
-        lastPage++;
-    }
-    curChange(lastPage)
-}
+// const refreshPage = () => {
+//     let lastPage = Math.ceil(saleList.value.total / saleList.value.pageSize)
+//     if (saleList.value.total % saleList.value.pageSize === 0) {
+//         lastPage++;
+//     }
+//     curChange(lastPage)
+// }
 
 //删除
 const openDelBox = (row) => {
@@ -136,14 +152,14 @@ const openDelBox = (row) => {
             </el-form>
         </template>
         <template #table>
-            <el-table :data="saleList.items">
+            <el-table :data="saleList.items" @sort-change='sortPrice'>
                 <el-table-column label="商品描述" prop="goodsDescription" />
                 <el-table-column label="商品图片" prop="goodsPicture">
                     <template #default="{ row }">
                         <el-image :src="row.goodsPicture" fit="fill" style="height: 50px" />
                     </template>
                 </el-table-column>
-                <el-table-column label="价格" prop="price" sortable>
+                <el-table-column label="价格" prop="price" sortable="custom">
                     <template #default="{ row }">
                         <el-text>{{ row.price }}元/{{ row.goodsUnit }}</el-text>
                     </template>
@@ -172,7 +188,7 @@ const openDelBox = (row) => {
     </page-container>
 
     <sale-edit-drawer ref="editDrawer" @success="getSaleList"></sale-edit-drawer>
-    <sale-add-drawer ref="addDrawer" @success="refreshPage"></sale-add-drawer>
+    <sale-add-drawer ref="addDrawer" @success="getSaleList"></sale-add-drawer>
 
 </template>
 <style scoped>

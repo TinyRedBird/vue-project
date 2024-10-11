@@ -20,21 +20,26 @@ defineExpose({
 </script>
 
 <template>
-    <el-upload 
-        :show-file-list="false" 
-        :auto-upload="false" 
-        :on-change="onSelectFile"
-        :before-upload="beforeUpload"
-    >
-        <el-image v-if="imageUrl" :src="imageUrl" />
-        <el-icon v-else>
-            <Plus />
-        </el-icon>
-    </el-upload>
-    <div class="tip">支持JPG、PNG格式，图片比例建议为1:1</div>
+    <div class="upload">
+        <el-upload 
+            :show-file-list="false" 
+            :auto-upload="false" 
+            :on-change="onSelectFile" 
+            :before-upload="beforeUpload">
+            <el-image v-if="imageUrl" :src="imageUrl" />
+            <el-icon v-else>
+                <Plus />
+            </el-icon>
+        </el-upload>
+        <div class="tip">支持JPG、PNG格式，图片比例建议为1:1</div>
+    </div>
 </template>
 
 <style scoped>
+.upload {
+    display: flex;
+    flex-direction: column;
+}
 .el-image {
     position: relative;
     width: 120px;

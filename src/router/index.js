@@ -80,8 +80,8 @@ const routes = [
     ]
   },
   {
-    path:'/404',component:()=>import('../views/NotFound.vue'),
-  }
+    path:'/:catchAll(.*)',component:()=>import('../views/NotFound.vue'),
+  },
 ]
 
 const router = createRouter({
